@@ -32,11 +32,11 @@ public class Calendar {
 
     //== 연관 관계 설정 ==//
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @JoinColumn(name = "project_id")
     private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @OneToMany(mappedBy = "calendar")
