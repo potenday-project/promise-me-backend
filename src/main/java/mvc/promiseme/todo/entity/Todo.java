@@ -22,10 +22,13 @@ public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long toDoId;
+    private String content;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ToDoStatus isCompleted;
+
+    private LocalDateTime todoDate;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

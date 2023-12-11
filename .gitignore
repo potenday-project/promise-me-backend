@@ -39,3 +39,4 @@ out/
 
 ### custom ###
 /src/main/resources/db-application.properties
+/src/main/resources/application-api-key.properties

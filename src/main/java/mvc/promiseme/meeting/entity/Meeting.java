@@ -30,6 +30,9 @@ public class Meeting {
     @Column(length = 50000)
     private String summary;
 
+    @Column(length = 50)
+    private String meetingName;
+
     //== 연관 관계 설정 ==//
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
