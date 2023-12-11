@@ -12,5 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional
 public class MeetingServiceImpl implements MeetingService {
 
-    private final NaverKey naverKey;
+    private final FileUploadingService fileUploadingService;
+
+    @Override
+    public void voiceToMeeting(MultipartFile multipartFile) {
+        fileUploadingService.fileUploadToCloud(multipartFile);
+    }
 }
