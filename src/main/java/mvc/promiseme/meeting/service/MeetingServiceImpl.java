@@ -2,6 +2,7 @@ package mvc.promiseme.meeting.service;
 
 import lombok.RequiredArgsConstructor;
 import mvc.promiseme.meeting.exceotion.FileUploadException;
+import mvc.promiseme.meeting.exceotion.SummaryException;
 import mvc.promiseme.meeting.exceotion.TransferTextException;
 import mvc.promiseme.common.NaverKey;
 import mvc.promiseme.meeting.dto.MeetingResponseDTO;
@@ -20,6 +21,7 @@ public class MeetingServiceImpl implements MeetingService {
     private final MeetingRepository meetingRepository;
     private final FileUploadingService fileUploadingService;
     private final TransferTextService transferTextService;
+    private final SummaryTextService summaryTextService;
 
     @Override
     public List<MeetingResponseDTO> meetingAll(Long projectId) {
@@ -33,7 +35,14 @@ public class MeetingServiceImpl implements MeetingService {
         if(uploadURL == null) throw new FileUploadException("[ERROR] file upload fail");
         String transferredText = transferTextService.transferText(uploadURL);
         if(transferredText == null) throw new TransferTextException("[ERROR] transfer voice to text fail");
+        String summary = summaryTextService.summary(transferredText);
+        if(summary == null) throw new SummaryException("[ERROR] summary fail");
+    }
 
+    @Override
+    public void textToMeeting(String text) {
+        String summary = summaryTextService.summary(text);
+        if(summary == null) throw new SummaryException("[ERROR] summary fail");
     }
 
 
