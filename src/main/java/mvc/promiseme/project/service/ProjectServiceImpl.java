@@ -6,6 +6,9 @@ import mvc.promiseme.project.repository.ProjectRepository;
 import mvc.promiseme.todo.dto.TodoRequestDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
@@ -17,7 +20,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public int dday(Long projectId) {
-        return projectRepository.finddday(projectId);
+    public Map<String,Integer> dday(Long projectId) {
+        Map<String,Integer> ddayResult = new HashMap<>();
+        ddayResult.put("Dday", projectRepository.finddday(projectId));
+        return ddayResult;
     }
 }

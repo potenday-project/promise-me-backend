@@ -15,11 +15,5 @@ public class MeetingResponseDTO {
     private String summary;
     private String meetingContent;
     private LocalDateTime meetingDate;
-//    public MeetingResponseDTO(Long meetingId, String summary, String meetingContent, LocalDateTime meetingDate) {
-//        // 생성자 내용
-//        this.meetingId = meetingId;
-//        this.summary = summary;
-//        this.meetingContent = meetingContent;
-//        this.meetingDate = meetingDate;
-//    }
+
 }

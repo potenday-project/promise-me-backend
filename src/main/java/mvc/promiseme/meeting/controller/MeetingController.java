@@ -14,12 +14,12 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins ="*", allowedHeaders = "*")
-@RequestMapping("meeting")
+@RequestMapping("/meeting")
 public class MeetingController {
     private final MeetingService meetingService;
 
     @GetMapping("/")
-    public ResponseEntity<List<MeetingResponseDTO>>meetingAll(@RequestParam(name = "projectId") Long projectId){
+    public ResponseEntity<List<MeetingResponseDTO>>meetingAll(@RequestParam Long projectId){
         return ResponseEntity.ok(meetingService.meetingAll(projectId));
 
     }

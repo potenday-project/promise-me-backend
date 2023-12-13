@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("user")
+
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/register")
+    @PostMapping("/users/register")
     public ResponseEntity<String>register(@RequestBody UserDTO userdto){
         if(userService.register(userdto).equals("success"))
             return ResponseEntity.ok("회원가입이 완료되었습니다.");
@@ -28,17 +28,17 @@ public class UserController {
         }
     }
 
-    @PostMapping("/login")
+    @PostMapping("/users/login")
     public ResponseEntity<LoginResponseDTO>login(@RequestBody LoginRequestDTO loginRequestDTO){
         return ResponseEntity.ok(userService.login(loginRequestDTO));
     }
 
-    @PostMapping("/logout")
+    @PostMapping("/users/logout")
     public ResponseEntity<String>logout(@RequestBody String token){
         return ResponseEntity.ok(userService.logout(token));
     }
 
-    @PostMapping("/check")
+    @PostMapping("/users/check")
     public ResponseEntity<Long>check(@RequestBody String email){
         return ResponseEntity.ok(userService.check(email));
     }

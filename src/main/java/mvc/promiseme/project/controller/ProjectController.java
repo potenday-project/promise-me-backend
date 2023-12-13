@@ -7,6 +7,8 @@ import mvc.promiseme.project.service.ProjectService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -16,8 +18,9 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping("/dday")
-    public int dday(@RequestParam(name ="projectId") Long projectId){
-        return projectService.dday(projectId);
+    public ResponseEntity <Map<String,Integer>> dday(@RequestParam Long projectId){
+
+        return ResponseEntity.ok(projectService.dday(projectId));
     }
 
 
