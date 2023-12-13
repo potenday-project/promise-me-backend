@@ -6,8 +6,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum ToDoStatus {
-    COMPLETE("완료"),
-    INCOMPLETE("미완료");
+    INCOMPLETE("미완료"),
+    COMPLETE("완료");
 
     private String value;
 }

@@ -29,6 +29,7 @@ public class Member {
     private String role;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private MemberStatus status;
 
     //== 연관 관계 설정 ==//
