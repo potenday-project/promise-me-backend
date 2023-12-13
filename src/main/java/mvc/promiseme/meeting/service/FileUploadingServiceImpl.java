@@ -7,9 +7,11 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import mvc.promiseme.common.NaverKey;
+import mvc.promiseme.common.NaverObjectStrage;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,11 +40,14 @@ public class FileUploadingServiceImpl implements FileUploadingService{
                 .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
                 .build();
 
-        String bucketName = "promise-me";
+        String bucketName = NaverObjectStrage.BUCKET_NAME;
         String objectName = UUID.randomUUID().toString();
+        String contentType = "audio/wav";
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType(contentType);
 
         try {
-            s3.putObject(new PutObjectRequest(bucketName, objectName, voiceFile.getInputStream(), null));
+            s3.putObject(new PutObjectRequest(bucketName, objectName, voiceFile.getInputStream(), metadata));
             System.out.format("Object %s has been created.%n", objectName);
         } catch (AmazonS3Exception e) {
             e.printStackTrace();
