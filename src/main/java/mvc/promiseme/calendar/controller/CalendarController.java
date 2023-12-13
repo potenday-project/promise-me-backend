@@ -20,7 +20,7 @@ public class CalendarController {
     private final CalendarService calendarService;
 
     @GetMapping("/")
-    public ResponseEntity<List<CalendarResponseDTO>>calendarAll(@RequestParam(name = "projectId") Long projectId){
+    public ResponseEntity<List<CalendarResponseDTO>>calendarAll(@RequestParam Long projectId){
         return ResponseEntity.ok(calendarService.calendarAll(projectId));
 
     }
