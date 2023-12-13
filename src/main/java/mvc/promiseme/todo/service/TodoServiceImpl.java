@@ -2,17 +2,25 @@ package mvc.promiseme.todo.service;
 
 import lombok.RequiredArgsConstructor;
 import mvc.promiseme.project.entity.Member;
+import mvc.promiseme.project.repository.MemberRepository;
+import mvc.promiseme.project.repository.ProjectRepository;
 import mvc.promiseme.todo.dto.TodoRequestDTO;
 import mvc.promiseme.todo.dto.TodoResponseDTO;
+import mvc.promiseme.todo.entity.Todo;
 import mvc.promiseme.todo.repository.TodoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 public class TodoServiceImpl implements  TodoService{
+
     private final TodoRepository todoRepository;
+    private final MemberRepository memberRepository;
+
     @Override
     public String insert(TodoRequestDTO todoRequestDTO) {
         return null;
@@ -28,8 +36,12 @@ public class TodoServiceImpl implements  TodoService{
     }
 
     @Override
-    public List<TodoResponseDTO> todoAll(Long memberId) {
-        Member memeber = Member.builder().memberId(memberId).build();
-        return todoRepository.findByMember(memeber);
+    public List<TodoResponseDTO> todoAll(Long memberId, LocalDate todoDate) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 멤버가 존재하지 않습니다."));
+        List<Todo> todoList = todoRepository.findByMemberAndAndTodoDate(member, todoDate);
+        if(todoList == null) throw new NoSuchElementException("[ERROR] 해당 데이터가 존재하지 않습니다.");
+        TodoResponseDTO todoResponseDTO = new TodoResponseDTO();
+        return todoResponseDTO.convertToDtoList(todoList);
     }
 }
