@@ -11,6 +11,7 @@ import mvc.promiseme.todo.entity.Todo;
 
 import mvc.promiseme.notice.entity.Notice;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class Project {
     private LocalDateTime start;
     private LocalDateTime deadline;
 
-    @CreationTimestamp
+    @CreatedDate
     private LocalDateTime createAt;
 
     //== 연관관계 설정 ==//
