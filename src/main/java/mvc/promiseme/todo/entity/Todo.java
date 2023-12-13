@@ -10,6 +10,8 @@ import mvc.promiseme.project.entity.Member;
 import org.hibernate.annotations.CreationTimestamp;
 
 import mvc.promiseme.project.entity.Project;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,10 +30,13 @@ public class Todo {
     @Enumerated(EnumType.STRING)
     private ToDoStatus isCompleted;
 
-    private LocalDateTime todoDate;
+    private LocalDate todoDate;
+    private LocalDate createdAt;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDate.now();
+    }
 
     //== 연관 관계 설정 ==//
     @ManyToOne(fetch = FetchType.LAZY)

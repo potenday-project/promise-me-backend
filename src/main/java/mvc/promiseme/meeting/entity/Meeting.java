@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import mvc.promiseme.project.entity.Project;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,9 +22,12 @@ public class Meeting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long meetingId;
+    private LocalDate meetingDate;
 
-    @CreationTimestamp
-    private LocalDateTime meetingDate;
+    @PrePersist
+    public void prePersist() {
+        this.meetingDate = LocalDate.now();
+    }
 
     @Column(columnDefinition = "LONGTEXT")
     private String meetingContent;

@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import mvc.promiseme.project.entity.Member;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +34,12 @@ public class Users {
     @Column(nullable = false, length = 20)
     private String nickname;
 
-    @CreationTimestamp
-    private LocalDateTime insertDate;
+    private LocalDate createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDate.now();
+    }
 
     //== 연관관계 설정 ==//
     @OneToMany(mappedBy = "users")
