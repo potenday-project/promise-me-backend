@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins ="*", allowedHeaders = "*")
 @RequestMapping("project")
 public class ProjectController {
     private final ProjectService projectService;

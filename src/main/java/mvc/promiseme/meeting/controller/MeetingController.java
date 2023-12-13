@@ -13,6 +13,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins ="*", allowedHeaders = "*")
 @RequestMapping("meeting")
 public class MeetingController {
     private final MeetingService meetingService;
