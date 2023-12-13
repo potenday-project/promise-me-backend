@@ -7,6 +7,8 @@ import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
@@ -16,7 +18,7 @@ public class projectTest {
     private ProjectService projectService;
     @Test
     public void testGetDday() {
-        int dday = projectService.dday(1L);
+        int dday= projectService.dday(1L);
         System.out.println("dday : "+ dday);
     }
 }

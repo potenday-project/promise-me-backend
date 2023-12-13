@@ -6,5 +6,5 @@ import java.util.Map;
 
 public interface ProjectService {
     public String insert (ProjectRequestDTO projectRequestDTO);
-    public Map<String,Integer> dday (Long projectId);
+    public int dday (Long projectId);
 }

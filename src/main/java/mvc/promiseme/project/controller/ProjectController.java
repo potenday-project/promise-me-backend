@@ -7,6 +7,7 @@ import mvc.promiseme.project.service.ProjectService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -19,8 +20,10 @@ public class ProjectController {
 
     @GetMapping("/dday")
     public ResponseEntity <Map<String,Integer>> dday(@RequestParam Long projectId){
+        Map<String,Integer> ddayResult = new HashMap<>();
+        ddayResult.put("Dday", projectService.dday(projectId));
 
-        return ResponseEntity.ok(projectService.dday(projectId));
+        return ResponseEntity.ok(ddayResult);
     }
 
 

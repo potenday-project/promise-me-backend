@@ -20,9 +20,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Map<String,Integer> dday(Long projectId) {
-        Map<String,Integer> ddayResult = new HashMap<>();
-        ddayResult.put("Dday", projectRepository.finddday(projectId));
-        return ddayResult;
+    public int dday(Long projectId) {
+        return projectRepository.finddday(projectId);
     }
 }
