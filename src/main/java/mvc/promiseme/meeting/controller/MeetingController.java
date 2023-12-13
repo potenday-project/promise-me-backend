@@ -1,10 +1,8 @@
 package mvc.promiseme.meeting.controller;
 
 import lombok.RequiredArgsConstructor;
-import mvc.promiseme.meeting.service.FileUploadingService;
 import mvc.promiseme.meeting.service.MeetingService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +20,8 @@ public class MeetingController {
         meetingService.voiceToMeeting(multipartFile);
     }
 
-    @GetMapping("/callback")
-    public void callback(){}
+    @PostMapping("/summary")
+    public void summaryText(@RequestParam("text") String text){
+        meetingService.textToMeeting(text);
+    }
 }

@@ -26,4 +26,10 @@ public class MeetingServiceImpl implements MeetingService {
         String summary = summaryTextService.summary(transferredText);
         if(summary == null) throw new SummaryException("[ERROR] summary fail");
     }
+
+    @Override
+    public void textToMeeting(String text) {
+        String summary = summaryTextService.summary(text);
+        if(summary == null) throw new SummaryException("[ERROR] summary fail");
+    }
 }
