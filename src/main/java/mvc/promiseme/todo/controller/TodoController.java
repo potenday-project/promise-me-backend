@@ -23,7 +23,7 @@ public class TodoController {
         return ResponseEntity.ok(todoService.insert(todoRequestDTO));
     }
     @GetMapping("/")
-    public ResponseEntity<List<TodoResponseDTO>> todoAll(@RequestBody Long memberId){
+    public ResponseEntity<List<TodoResponseDTO>> todoAll(@RequestParam(name = "memberId") Long memberId){
         return ResponseEntity.ok(todoService.todoAll(memberId));
     }
     @PostMapping("/edit")

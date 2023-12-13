@@ -15,7 +15,6 @@ public class CalendarServiceImpl implements CalendarService{
     @Override
     public List<CalendarResponseDTO> calendarAll(Long projectId) {
         Project project = Project.builder().projectId(projectId).build();
-        List<CalendarResponseDTO> calnederList = calendarRepository.findByProject(project);
-        return calnederList;
+        return calendarRepository.findByProject(project);
     }
 }

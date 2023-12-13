@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import mvc.promiseme.project.dto.ProjectRequestDTO;
 import mvc.promiseme.project.service.ProjectService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -17,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProjectController {
     private final ProjectService projectService;
 
-    @PostMapping("/")
-    public ResponseEntity<String> insertTodo(@RequestBody ProjectRequestDTO projectRequestDTO){
-        return ResponseEntity.ok(projectService.insert(projectRequestDTO));
+    @GetMapping("/dday")
+    public int dday(@RequestParam(name ="projectId") Long projectId){
+        return projectService.dday(projectId);
     }
 
 
