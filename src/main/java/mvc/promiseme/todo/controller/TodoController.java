@@ -9,12 +9,14 @@ import mvc.promiseme.users.dto.UserDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("todo")
+@RequestMapping("/todo")
 public class TodoController {
     private final TodoService todoService;
 
@@ -23,8 +25,11 @@ public class TodoController {
         return ResponseEntity.ok(todoService.insert(todoRequestDTO));
     }
     @GetMapping("/")
-    public ResponseEntity<List<TodoResponseDTO>> todoAll(@RequestParam(name = "memberId") Long memberId){
-        return ResponseEntity.ok(todoService.todoAll(memberId));
+    public ResponseEntity<List<TodoResponseDTO>> todoAll(@RequestParam(name = "memberId") Long memberId, @RequestParam(name = "todoDate") String todoDate){
+        System.out.println("들어오나");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(todoDate, formatter);
+        return ResponseEntity.ok(todoService.todoAll(memberId, localDate));
     }
     @PostMapping("/edit")
     public ResponseEntity<String> editTodo(@RequestBody TodoRequestDTO todoRequestDTO){
@@ -32,7 +37,7 @@ public class TodoController {
     }
 
     @PostMapping("/check")
-    public ResponseEntity<String> editTodo(@RequestBody Long todoId){
+    public ResponseEntity<String> checkTodo(@RequestBody Long todoId){
         return ResponseEntity.ok(todoService.check(todoId));
     }
 }

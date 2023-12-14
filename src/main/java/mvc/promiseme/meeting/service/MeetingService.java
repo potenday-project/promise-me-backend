@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface MeetingService {
     void voiceToMeeting(MultipartFile multipartFile);
+    void textToMeeting(String text);
     public List<MeetingResponseDTO> meetingAll(Long projectId);
 }
