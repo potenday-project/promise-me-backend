@@ -37,13 +37,14 @@ public class TodoServiceImpl implements  TodoService{
         Todo todo = todoRepository.findById(todoId)
                 .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 투두가 존재하지 않습니다."));
         todo = updateStatus(todo);
+        todoRepository.save(todo);
         return "success";
     }
 
     private Todo updateStatus(Todo todo){
         ToDoStatus status = todo.getIsCompleted();
-        if(status == ToDoStatus.COMPLETE) todo.setIsCompleted(ToDoStatus.INCOMPLETE);
-        else if (status == ToDoStatus.INCOMPLETE) todo.setIsCompleted(ToDoStatus.COMPLETE);
+        if(status.equals(ToDoStatus.COMPLETE)) todo.setIsCompleted(ToDoStatus.INCOMPLETE);
+        else if (status.equals(ToDoStatus.INCOMPLETE)) todo.setIsCompleted(ToDoStatus.COMPLETE);
         return todo;
     }
 
