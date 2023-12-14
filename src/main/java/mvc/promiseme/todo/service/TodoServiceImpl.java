@@ -1,8 +1,6 @@
 package mvc.promiseme.todo.service;
 
 import lombok.RequiredArgsConstructor;
-import mvc.promiseme.calendar.entity.Calendar;
-import mvc.promiseme.calendar.repository.CalendarRepository;
 import mvc.promiseme.project.entity.Member;
 import mvc.promiseme.project.entity.Project;
 import mvc.promiseme.project.repository.MemberRepository;
@@ -22,12 +20,11 @@ import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
-public class TodoServiceImpl implements  TodoService{
+public class TodoServiceImpl implements TodoService{
 
     private final TodoRepository todoRepository;
     private final MemberRepository memberRepository;
     private final ProjectRepository projectRepository;
-    private final CalendarRepository calendarRepository;
     private final UserRepository userRepository;
 
     @Override

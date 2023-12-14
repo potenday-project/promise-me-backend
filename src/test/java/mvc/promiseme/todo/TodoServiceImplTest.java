@@ -1,110 +1,100 @@
 package mvc.promiseme.todo;
 
-import mvc.promiseme.calendar.entity.Calendar;
-import mvc.promiseme.calendar.repository.CalendarRepository;
 import mvc.promiseme.project.entity.Member;
 import mvc.promiseme.project.entity.Project;
 import mvc.promiseme.project.repository.MemberRepository;
 import mvc.promiseme.project.repository.ProjectRepository;
 import mvc.promiseme.todo.dto.TodoRequestDTO;
-import mvc.promiseme.todo.dto.TodoResponseDTO;
-import mvc.promiseme.todo.entity.ToDoStatus;
-import mvc.promiseme.todo.entity.Todo;
 import mvc.promiseme.todo.repository.TodoRepository;
 import mvc.promiseme.todo.service.TodoServiceImpl;
+import mvc.promiseme.users.entity.Users;
+import mvc.promiseme.users.repository.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
 class TodoServiceImplTest {
+
+    @Mock
+    private TodoRepository todoRepository;
+
+    @Mock
+    private MemberRepository memberRepository;
+
+    @Mock
+    private ProjectRepository projectRepository;
+
+    @Mock
+    private UserRepository userRepository;
 
     @InjectMocks
     private TodoServiceImpl todoService;
-    @Mock
-    private TodoRepository todoRepository;
-    @Mock
-    private MemberRepository memberRepository;
-    @Mock
-    private ProjectRepository projectRepository;
-    @Mock
-    private CalendarRepository calendarRepository;
 
-    @Test
-    void insertTodoTest() {
-        TodoRequestDTO todoRequestDTO = new TodoRequestDTO(1L, 2L, 3L, "Test Todo", LocalDate.parse("2023-12-14"));
-        Project mockProject = new Project();
-        Member mockMember = new Member();
-        Calendar mockCalendar = new Calendar();
-        Todo mockTodo = Todo.builder()
-                .content(todoRequestDTO.getContent())
-                .todoDate(todoRequestDTO.getTodoDate())
-                .project(mockProject)
-                .member(mockMember)
-                .calendar(mockCalendar)
-                .build();
-
-        when(projectRepository.findById(1L)).thenReturn(Optional.of(mockProject));
-        when(memberRepository.findById(2L)).thenReturn(Optional.of(mockMember));
-        when(calendarRepository.findById(3L)).thenReturn(Optional.of(mockCalendar));
-        when(todoRepository.save(Mockito.any(Todo.class))).thenReturn(mockTodo);
-
-        String result = todoService.insert(todoRequestDTO);
-
-        assertEquals("success", result);
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void checkTodoTest() {
-        Todo mockTodo = Todo.builder()
-                .toDoId(1L)
-                .isCompleted(ToDoStatus.INCOMPLETE)
-                .build();
+    void insert_todoSuccessfully() {
+        TodoRequestDTO todoRequestDTO = new TodoRequestDTO();
+        todoRequestDTO.setProjectId(1L);
+        todoRequestDTO.setUserId(1L);
 
-        when(todoRepository.findById(1L)).thenReturn(Optional.of(mockTodo));
-        when(todoRepository.save(Mockito.any(Todo.class))).thenReturn(mockTodo);
+        when(projectRepository.findById(any())).thenReturn(Optional.of(new Project()));
+        when(memberRepository.findByUsersAndProject(any(), any())).thenReturn(Optional.of(new Member()));
+        when(userRepository.findById(any())).thenReturn(Optional.of(new Users()));
 
-        String result = todoService.check(1L);
-
-        assertEquals("success", result);
+        assertEquals("success", todoService.insert(todoRequestDTO));
+        verify(todoRepository, times(1)).save(any());
     }
 
     @Test
-    void checkTodoNotFoundTest() {
-        when(todoRepository.findById(1L)).thenReturn(Optional.empty());
+    void insert_projectNotFound() {
+        TodoRequestDTO todoRequestDTO = new TodoRequestDTO();
+        todoRequestDTO.setProjectId(1L);
+        todoRequestDTO.setUserId(1L);
 
-        assertThrows(NoSuchElementException.class, () -> todoService.check(1L));
+        when(projectRepository.findById(any())).thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, () -> todoService.insert(todoRequestDTO));
+        verify(todoRepository, never()).save(any());
     }
 
     @Test
-    void todoAllTest() {
-        Member mockMember = new Member();
-        List<Todo> mockTodoList = Collections.singletonList(Todo.builder().build());
+    void insert_memberNotFound() {
+        TodoRequestDTO todoRequestDTO = new TodoRequestDTO();
+        todoRequestDTO.setProjectId(1L);
+        todoRequestDTO.setUserId(1L);
 
-        when(memberRepository.findById(1L)).thenReturn(Optional.of(mockMember));
-        when(todoRepository.findByMemberAndAndTodoDate(Mockito.any(Member.class), Mockito.any(LocalDate.class)))
-                .thenReturn(mockTodoList);
+        when(projectRepository.findById(any())).thenReturn(Optional.of(new Project()));
+        when(memberRepository.findByUsersAndProject(any(), any())).thenReturn(Optional.empty());
 
-        List<TodoResponseDTO> result = todoService.todoAll(1L, 1L, LocalDate.now());
-        assertEquals(mockTodoList.size(), result.size());
+        assertThrows(NoSuchElementException.class, () -> todoService.insert(todoRequestDTO));
+        verify(todoRepository, never()).save(any());
     }
 
     @Test
-    void todoAllMemberNotFoundTest() {
-        when(memberRepository.findById(1L)).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, () -> todoService.todoAll(1L, 1L, LocalDate.now()));
-    }
+    void insert_userNotFound() {
+        TodoRequestDTO todoRequestDTO = new TodoRequestDTO();
+        todoRequestDTO.setProjectId(1L);
+        todoRequestDTO.setUserId(1L);
 
+        when(projectRepository.findById(any())).thenReturn(Optional.of(new Project()));
+        when(memberRepository.findByUsersAndProject(any(), any())).thenReturn(Optional.of(new Member()));
+        when(userRepository.findById(any())).thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, () -> todoService.insert(todoRequestDTO));
+        verify(todoRepository, never()).save(any());
+    }
 }
