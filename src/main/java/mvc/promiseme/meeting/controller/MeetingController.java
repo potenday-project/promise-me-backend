@@ -30,12 +30,12 @@ public class MeetingController {
     }
 
     @PostMapping("/transfer")
-    public void transferVoice(@RequestParam("voiceFile") MultipartFile multipartFile){
-        meetingService.voiceToMeeting(multipartFile);
+    public void transferVoice(@RequestParam("voiceFile") MultipartFile multipartFile, @RequestParam("projectId") Long projectId){
+        meetingService.voiceToMeeting(multipartFile, projectId);
     }
 
     @PostMapping("/summary")
-    public void summaryText(@RequestParam("text") String text){
-        meetingService.textToMeeting(text);
+    public void summaryText(@RequestParam("text") String text, @RequestParam("projectId") Long projectId){
+        meetingService.textToMeeting(text, projectId);
     }
 }
