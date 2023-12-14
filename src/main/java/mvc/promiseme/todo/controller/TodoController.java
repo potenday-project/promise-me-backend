@@ -37,7 +37,7 @@ public class TodoController {
     }
 
     @PostMapping("/check")
-    public ResponseEntity<String> editTodo(@RequestBody Long todoId){
+    public ResponseEntity<String> checkTodo(@RequestBody Long todoId){
         return ResponseEntity.ok(todoService.check(todoId));
     }
 }
