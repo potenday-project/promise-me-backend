@@ -1,10 +1,7 @@
 package mvc.promiseme.todo.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import mvc.promiseme.calendar.entity.Calendar;
 import mvc.promiseme.project.entity.Member;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Builder
 public class Todo {
 

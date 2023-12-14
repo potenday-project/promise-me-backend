@@ -6,6 +6,7 @@ import mvc.promiseme.project.repository.MemberRepository;
 import mvc.promiseme.project.repository.ProjectRepository;
 import mvc.promiseme.todo.dto.TodoRequestDTO;
 import mvc.promiseme.todo.dto.TodoResponseDTO;
+import mvc.promiseme.todo.entity.ToDoStatus;
 import mvc.promiseme.todo.entity.Todo;
 import mvc.promiseme.todo.repository.TodoRepository;
 import org.springframework.stereotype.Service;
@@ -30,9 +31,20 @@ public class TodoServiceImpl implements  TodoService{
     public String edit(TodoRequestDTO todoRequestDTO) {
         return null;
     }
-    public String check(Long todoId){
-        return null;
 
+    @Override
+    public String check(Long todoId){
+        Todo todo = todoRepository.findById(todoId)
+                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 투두가 존재하지 않습니다."));
+        todo = updateStatus(todo);
+        return "success";
+    }
+
+    private Todo updateStatus(Todo todo){
+        ToDoStatus status = todo.getIsCompleted();
+        if(status == ToDoStatus.COMPLETE) todo.setIsCompleted(ToDoStatus.INCOMPLETE);
+        else if (status == ToDoStatus.INCOMPLETE) todo.setIsCompleted(ToDoStatus.COMPLETE);
+        return todo;
     }
 
     @Override
