@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 @Setter
 @Builder
 public class TodoResponseDTO {
+
+    private Long todoId;
     private String content;
     private ToDoStatus isCompleted;
 
@@ -24,6 +26,7 @@ public class TodoResponseDTO {
 
     private TodoResponseDTO convertToDto(Todo todo) {
         return TodoResponseDTO.builder()
+                .todoId(todo.getToDoId())
                 .content(todo.getContent())
                 .isCompleted(todo.getIsCompleted())
                 .build();
