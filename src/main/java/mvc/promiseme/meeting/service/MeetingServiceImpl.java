@@ -37,7 +37,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Async
     @Override
-    public void voiceToMeeting(MultipartFile multipartFile, Long projectId) {
+    public String voiceToMeeting(MultipartFile multipartFile, Long projectId) {
         Meeting meeting = addEmptyRecord(projectId);
 
         String uploadURL = fileUploadingService.fileUploadToCloud(multipartFile);
@@ -48,14 +48,16 @@ public class MeetingServiceImpl implements MeetingService {
         if(summary == null) throw new SummaryException("[ERROR] summary fail");
 
         updateEmptyRecord(meeting, transferredText, summary);
+        return "success";
     }
 
     @Override
-    public void textToMeeting(String text, Long projectId) {
+    public String textToMeeting(String text, Long projectId) {
         Meeting meeting = addEmptyRecord(projectId);
         String summary = summaryTextService.summary(text);
         if(summary == null) throw new SummaryException("[ERROR] summary fail");
         updateEmptyRecord(meeting, text, summary);
+        return "success";
     }
 
     private Meeting addEmptyRecord(Long projectId){
