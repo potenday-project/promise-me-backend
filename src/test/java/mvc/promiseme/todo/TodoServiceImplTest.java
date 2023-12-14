@@ -97,14 +97,14 @@ class TodoServiceImplTest {
         when(todoRepository.findByMemberAndAndTodoDate(Mockito.any(Member.class), Mockito.any(LocalDate.class)))
                 .thenReturn(mockTodoList);
 
-        List<TodoResponseDTO> result = todoService.todoAll(1L, LocalDate.now());
+        List<TodoResponseDTO> result = todoService.todoAll(1L, 1L, LocalDate.now());
         assertEquals(mockTodoList.size(), result.size());
     }
 
     @Test
     void todoAllMemberNotFoundTest() {
         when(memberRepository.findById(1L)).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, () -> todoService.todoAll(1L, LocalDate.now()));
+        assertThrows(NoSuchElementException.class, () -> todoService.todoAll(1L, 1L, LocalDate.now()));
     }
 
 }

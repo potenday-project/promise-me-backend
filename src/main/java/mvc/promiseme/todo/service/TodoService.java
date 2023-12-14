@@ -10,5 +10,5 @@ public interface TodoService {
     public String insert (TodoRequestDTO todoRequestDTO);
     public String edit (TodoRequestDTO todoRequestDTO);
     public String check(Long todoId);
-    public List<TodoResponseDTO> todoAll(Long memberId, LocalDate todoDate);
+    public List<TodoResponseDTO> todoAll(Long projectId, Long userId, LocalDate todoDate);
 }

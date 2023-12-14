@@ -12,6 +12,8 @@ import mvc.promiseme.todo.dto.TodoResponseDTO;
 import mvc.promiseme.todo.entity.ToDoStatus;
 import mvc.promiseme.todo.entity.Todo;
 import mvc.promiseme.todo.repository.TodoRepository;
+import mvc.promiseme.users.entity.Users;
+import mvc.promiseme.users.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,6 +28,7 @@ public class TodoServiceImpl implements  TodoService{
     private final MemberRepository memberRepository;
     private final ProjectRepository projectRepository;
     private final CalendarRepository calendarRepository;
+    private final UserRepository userRepository;
 
     @Override
     public String insert(TodoRequestDTO todoRequestDTO) {
@@ -64,12 +67,20 @@ public class TodoServiceImpl implements  TodoService{
     }
 
     @Override
-    public List<TodoResponseDTO> todoAll(Long memberId, LocalDate todoDate) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 멤버가 존재하지 않습니다."));
+    public List<TodoResponseDTO> todoAll(Long projectId, Long userId, LocalDate todoDate) {
+        Member member = getMember(projectId, userId);
         List<Todo> todoList = todoRepository.findByMemberAndAndTodoDate(member, todoDate);
         if(todoList == null) throw new NoSuchElementException("[ERROR] 해당 데이터가 존재하지 않습니다.");
         TodoResponseDTO todoResponseDTO = new TodoResponseDTO();
         return todoResponseDTO.convertToDtoList(todoList);
+    }
+    
+    private Member getMember(Long projectId, Long userId){
+        Users users = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 회원이 존재하지 않습니다."));
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 프로젝트가 존재하지 않습니다."));
+        return memberRepository.findByUsersAndProject(users, project)
+                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 프로젝트 멤버가 존재하지 않습니다."));
     }
 }
