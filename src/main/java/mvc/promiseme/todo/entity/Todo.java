@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import mvc.promiseme.calendar.entity.Calendar;
 import mvc.promiseme.project.entity.Member;
+import mvc.promiseme.todo.dto.TodoRequestDTO;
 import org.hibernate.annotations.CreationTimestamp;
 
 import mvc.promiseme.project.entity.Project;
@@ -26,7 +27,8 @@ public class Todo {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ToDoStatus isCompleted;
+    @Builder.Default
+    private ToDoStatus isCompleted = ToDoStatus.INCOMPLETE;
 
     private LocalDate todoDate;
     private LocalDate createdAt;
@@ -48,5 +50,16 @@ public class Todo {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calendar_id")
     private Calendar calendar;
+
+
+    public Todo mapToEntity(TodoRequestDTO todoRequestDTO, Project project, Member member, Calendar calendar) {
+        return Todo.builder()
+                .content(todoRequestDTO.getContent())
+                .todoDate(todoRequestDTO.getTodoDate())
+                .project(project)
+                .member(member)
+                .calendar(calendar)
+                .build();
+    }
 
 }
