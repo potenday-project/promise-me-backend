@@ -32,15 +32,12 @@ public class TodoServiceImpl implements  TodoService{
 
     @Override
     public String insert(TodoRequestDTO todoRequestDTO) {
+        Member member = getMember(todoRequestDTO.getProjectId(), todoRequestDTO.getUserId());
         Project project = projectRepository.findById(todoRequestDTO.getProjectId())
                 .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 프로젝트가 존재하지 않습니다."));
-        Member member = memberRepository.findById(todoRequestDTO.getMemberId())
-                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 멤버가 존재하지 않습니다."));
-        Calendar calendar = calendarRepository.findById(todoRequestDTO.getCalenderId())
-                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 일정이 존재하지 않습니다."));
 
         Todo t = new Todo();
-        Todo todo = t.mapToEntity(todoRequestDTO, project, member, calendar);
+        Todo todo = t.mapToEntity(todoRequestDTO, project, member);
         todoRepository.save(todo);
         return "success";
     }

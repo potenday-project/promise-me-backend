@@ -11,8 +11,7 @@ import java.time.LocalDate;
 @Builder
 public class TodoRequestDTO {
     private long projectId;
-    private long memberId;
-    private long calenderId;
+    private long userId;
     private String content;
     private LocalDate todoDate;
 }

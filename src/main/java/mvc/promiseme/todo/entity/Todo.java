@@ -52,13 +52,13 @@ public class Todo {
     private Calendar calendar;
 
 
-    public Todo mapToEntity(TodoRequestDTO todoRequestDTO, Project project, Member member, Calendar calendar) {
+    public Todo mapToEntity(TodoRequestDTO todoRequestDTO, Project project, Member member) {
         return Todo.builder()
                 .content(todoRequestDTO.getContent())
                 .todoDate(todoRequestDTO.getTodoDate())
                 .project(project)
                 .member(member)
-                .calendar(calendar)
+                .calendar(null)
                 .build();
     }
 
