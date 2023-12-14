@@ -7,6 +7,9 @@ import mvc.promiseme.meeting.service.FileUploadingService;
 import mvc.promiseme.meeting.service.MeetingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +27,6 @@ public class MeetingController {
     @GetMapping("/")
     public ResponseEntity<List<MeetingResponseDTO>> meetingAll(@RequestParam(name="projectId") Long projectId){
         return ResponseEntity.ok(meetingService.meetingAll(projectId));
-
     }
 
     @PostMapping("/transfer")
@@ -32,7 +34,8 @@ public class MeetingController {
         meetingService.voiceToMeeting(multipartFile);
     }
 
-    @GetMapping("/callback")
-    public void callback(){}
-
+    @PostMapping("/summary")
+    public void summaryText(@RequestParam("text") String text){
+        meetingService.textToMeeting(text);
+    }
 }

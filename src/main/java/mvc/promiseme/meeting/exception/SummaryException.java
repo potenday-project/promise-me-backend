@@ -1,4 +1,4 @@
-package mvc.promiseme.meeting.exceotion;
+package mvc.promiseme.meeting.exception;
 
 public class SummaryException extends RuntimeException{
     public SummaryException() {
