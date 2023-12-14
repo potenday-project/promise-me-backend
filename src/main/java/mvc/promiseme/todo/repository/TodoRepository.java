@@ -1,7 +1,6 @@
 package mvc.promiseme.todo.repository;
 
 import mvc.promiseme.project.entity.Member;
-import mvc.promiseme.todo.dto.TodoResponseDTO;
 import mvc.promiseme.todo.entity.Todo;
 import org.springframework.data.jpa.repository.JpaRepository;
 

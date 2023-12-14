@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import mvc.promiseme.todo.dto.TodoRequestDTO;
 import mvc.promiseme.todo.dto.TodoResponseDTO;
 import mvc.promiseme.todo.service.TodoService;
-import mvc.promiseme.users.dto.UserDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
