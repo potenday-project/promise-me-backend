@@ -2,12 +2,9 @@ package mvc.promiseme.meeting.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
 import mvc.promiseme.project.entity.Project;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor

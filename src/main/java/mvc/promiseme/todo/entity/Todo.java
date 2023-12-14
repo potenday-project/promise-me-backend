@@ -4,13 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import mvc.promiseme.calendar.entity.Calendar;
 import mvc.promiseme.project.entity.Member;
-import mvc.promiseme.todo.dto.TodoRequestDTO;
-import org.hibernate.annotations.CreationTimestamp;
-
 import mvc.promiseme.project.entity.Project;
+import mvc.promiseme.todo.dto.TodoRequestDTO;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -52,13 +49,13 @@ public class Todo {
     private Calendar calendar;
 
 
-    public Todo mapToEntity(TodoRequestDTO todoRequestDTO, Project project, Member member, Calendar calendar) {
+    public Todo mapToEntity(TodoRequestDTO todoRequestDTO, Project project, Member member) {
         return Todo.builder()
                 .content(todoRequestDTO.getContent())
                 .todoDate(todoRequestDTO.getTodoDate())
                 .project(project)
                 .member(member)
-                .calendar(calendar)
+                .calendar(null)
                 .build();
     }
 
