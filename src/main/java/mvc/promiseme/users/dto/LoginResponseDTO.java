@@ -8,7 +8,7 @@ import lombok.*;
 @Setter
 @Builder
 public class LoginResponseDTO {
-    private String userId;
+    private Long userId;
     private String nickname;
-    private String token;
+//    private String token;
 }

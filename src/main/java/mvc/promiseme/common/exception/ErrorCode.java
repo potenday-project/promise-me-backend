@@ -12,16 +12,12 @@ public enum ErrorCode implements EnumModel{
 
     //예시
     //회원 로그인 시 발생 가능 예외
-    INVALID_Customer_Login(401, "C001", "존재하지 않는 고객 정보입니다."),
-    INVALID_Customer_Password(401, "C002", "비밀번호가 일치하지 않습니다."),
-
-
-    // 행원 로그인 시 발생 가능 예외
-    INVALID_BANKER_Login(401,"B001","존재하지 않는 행원 정보입니다."),
-    INVALID_BANKER_Password(401,"B002","비밀번호가 일치하지 않습니다."),
+    INVALID_User_Login(401, "U001", "존재하지 않는 고객 정보입니다."),
+    INVALID_User_Password(401, "U002", "비밀번호가 일치하지 않습니다."),
 
     //중복여부 체크
     DUPLICATE_USER(400,"D001","중복된 이메일입니다.");
+
 
     private int status;
     private String code;
