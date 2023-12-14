@@ -30,7 +30,7 @@ public class MeetingController {
     }
 
     @PostMapping("/summary")
-    public ResponseEntity<String> summaryText(@RequestParam("text") String text, @RequestParam("projectId") Long projectId){
-        return ResponseEntity.ok(meetingService.textToMeeting(text, projectId));
+    public ResponseEntity<String> summaryText(@RequestParam("meetingContent") String meetingContent, @RequestParam("projectId") Long projectId){
+        return ResponseEntity.ok(meetingService.textToMeeting(meetingContent, projectId));
     }
 }
