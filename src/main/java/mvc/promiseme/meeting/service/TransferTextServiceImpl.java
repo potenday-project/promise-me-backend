@@ -53,4 +53,3 @@ public class TransferTextServiceImpl implements TransferTextService{
         return text;
     }
 }
-

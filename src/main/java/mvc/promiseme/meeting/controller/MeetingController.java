@@ -30,12 +30,12 @@ public class MeetingController {
     }
 
     @PostMapping("/transfer")
-    public void transferVoice(@RequestParam("voiceFile") MultipartFile multipartFile){
-        meetingService.voiceToMeeting(multipartFile);
+    public ResponseEntity<String> transferVoice(@RequestParam("voiceFile") MultipartFile multipartFile, @RequestParam("projectId") Long projectId){
+        return ResponseEntity.ok(meetingService.voiceToMeeting(multipartFile, projectId));
     }
 
     @PostMapping("/summary")
-    public void summaryText(@RequestParam("text") String text){
-        meetingService.textToMeeting(text);
+    public ResponseEntity<String> summaryText(@RequestParam("text") String text, @RequestParam("projectId") Long projectId){
+        return ResponseEntity.ok(meetingService.textToMeeting(text, projectId));
     }
 }
