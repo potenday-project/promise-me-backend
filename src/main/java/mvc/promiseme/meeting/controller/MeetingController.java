@@ -25,7 +25,7 @@ public class MeetingController {
     private final MeetingService meetingService;
 
     @GetMapping("/")
-    public ResponseEntity<List<MeetingResponseDTO>> meetingAll(@RequestParam Long projectId){
+    public ResponseEntity<List<MeetingResponseDTO>> meetingAll(@RequestParam(name="projectId") Long projectId){
         return ResponseEntity.ok(meetingService.meetingAll(projectId));
     }
 

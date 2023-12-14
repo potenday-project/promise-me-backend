@@ -29,7 +29,15 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
-        return null;
+
+        Users loginUser = userRepository.findByEmail(loginRequestDTO.getEmail());
+        if(loginUser == null)
+            throw new UserException(ErrorCode.INVALID_User_Login);
+
+        if(!loginRequestDTO.getPassword().equals(loginUser.getPassword()))
+            throw new UserException(ErrorCode.INVALID_User_Password);
+
+        return new LoginResponseDTO(loginUser.getUserId(),loginUser.getNickname());
     }
 
     @Override
@@ -39,6 +47,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Long check(String email) {
-        return null;
+        Users checkUser = userRepository.findByEmail(email);
+        if(checkUser == null)
+            throw new UserException(ErrorCode.INVALID_User_Login);
+
+
+        return checkUser.getUserId();
     }
 }
