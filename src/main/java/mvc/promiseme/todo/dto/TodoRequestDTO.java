@@ -2,6 +2,8 @@ package mvc.promiseme.todo.dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -12,4 +14,5 @@ public class TodoRequestDTO {
     private long memberId;
     private long calenderId;
     private String content;
+    private LocalDate todoDate;
 }

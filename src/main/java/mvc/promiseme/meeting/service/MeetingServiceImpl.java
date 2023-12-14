@@ -1,10 +1,9 @@
 package mvc.promiseme.meeting.service;
 
 import lombok.RequiredArgsConstructor;
-import mvc.promiseme.meeting.exceotion.FileUploadException;
-import mvc.promiseme.meeting.exceotion.SummaryException;
-import mvc.promiseme.meeting.exceotion.TransferTextException;
-import mvc.promiseme.common.NaverKey;
+import mvc.promiseme.meeting.exception.FileUploadException;
+import mvc.promiseme.meeting.exception.SummaryException;
+import mvc.promiseme.meeting.exception.TransferTextException;
 import mvc.promiseme.meeting.dto.MeetingResponseDTO;
 import mvc.promiseme.meeting.repository.MeetingRepository;
 import mvc.promiseme.project.entity.Project;
