@@ -14,6 +14,6 @@ public class MeetingResponseDTO {
     private Long meetingId;
     private String summary;
     private String meetingContent;
-    private LocalDateTime meetingDate;
+    private LocalDate meetingDate;
 
 }
