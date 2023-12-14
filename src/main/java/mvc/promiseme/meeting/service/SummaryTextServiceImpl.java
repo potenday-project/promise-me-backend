@@ -3,7 +3,6 @@ package mvc.promiseme.meeting.service;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
-import mvc.promiseme.common.NaverKey;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
