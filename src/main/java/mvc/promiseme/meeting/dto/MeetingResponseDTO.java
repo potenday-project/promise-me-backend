@@ -15,5 +15,5 @@ public class MeetingResponseDTO {
     private String summary;
     private String meetingContent;
     private LocalDate meetingDate;
-
+    private String meetingName;
 }
