@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Builder
 public class RecommendScheduleRequestDTO {
     private String category;
-    private String topic;
+//    private String topic;
     private String member;
     private LocalDate start;
     private LocalDate deadline;

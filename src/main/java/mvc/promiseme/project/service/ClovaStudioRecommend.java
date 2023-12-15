@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 public class ClovaStudioRecommend {
 
-    @Value("${RECOMMEND_MEMBER_URL}")
+    @Value("${RECOMMEND_URL}")
     private String url;
     @Value("${RECOMMEND_API_KEY}")
     private String apiKeyClovaStudio;
@@ -20,4 +20,6 @@ public class ClovaStudioRecommend {
     private String apiGateWayKey;
     @Value("${RECOMMEND_MEMBER_REQUEST_ID}")
     private String requestMemberId;
+    @Value("${RECOMMEND_SCHEDULE_REQUEST_ID}")
+    private String requestScheduleId;
 }

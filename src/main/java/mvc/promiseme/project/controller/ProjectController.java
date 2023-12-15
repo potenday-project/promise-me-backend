@@ -6,6 +6,7 @@ import mvc.promiseme.calendar.dto.CalendarResponseDTO;
 import mvc.promiseme.project.dto.ProjectRequestDTO;
 import mvc.promiseme.project.dto.ProjectResponseDTO;
 import mvc.promiseme.project.dto.RecommendMemberRequestDTO;
+import mvc.promiseme.project.dto.RecommendScheduleRequestDTO;
 import mvc.promiseme.project.service.ProjectService;
 import mvc.promiseme.project.service.RecommendService;
 import org.springframework.http.ResponseEntity;
@@ -63,6 +64,9 @@ public class ProjectController {
     public ResponseEntity<Map<String,String>> recommendMember(@RequestBody RecommendMemberRequestDTO recommendMemberRequestDTO){
         return ResponseEntity.ok(recommendService.recommendMember(recommendMemberRequestDTO));
     }
-
+    @PostMapping("/recommend/schedule")
+    public ResponseEntity<List<Map<String, String>>> recommendSchedule(@RequestBody RecommendScheduleRequestDTO recommendScheduleRequestDTO){
+        return ResponseEntity.ok(recommendService.recommendSchedule(recommendScheduleRequestDTO));
+    }
 
 }
