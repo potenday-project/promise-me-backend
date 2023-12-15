@@ -44,7 +44,7 @@ public class ProjectController {
     @GetMapping("/progress")
     public ResponseEntity<Map<String, Integer>> progress(@RequestParam("projectId")Long projectId){
         Map<String,Integer> progressResult = new HashMap<>();
-        progressResult.put("Prgress", projectService.progress(projectId));
+        progressResult.put("progress", projectService.progress(projectId));
         return ResponseEntity.ok(progressResult);
     }
 
