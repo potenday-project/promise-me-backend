@@ -20,5 +20,4 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
     @Query("SELECT p.category From Project p group by p.category ORDER BY count (p.category) DESC LIMIT 6")
     List<String> getCategoryRanking();
 
-    Project findByMember(Member member);
 }

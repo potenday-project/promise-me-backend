@@ -1,6 +1,7 @@
 package mvc.promiseme.project.dto;
 
 import lombok.*;
+import mvc.promiseme.project.entity.Project;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -9,6 +10,8 @@ import lombok.*;
 @Builder
 public class ProjectResponseDTO {
     private Long projectId;
-    private String projectName;
+    private String name;
     private String role;
+
 }
+

@@ -13,7 +13,9 @@ import mvc.promiseme.todo.dto.TodoRequestDTO;
 import mvc.promiseme.users.entity.Users;
 import mvc.promiseme.users.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +28,14 @@ public class ProjectServiceImpl implements ProjectService {
     private final UserRepository userRepository;
     private final MemberRepository memberRepository;
     @Override
+    @Transactional
     public List<ProjectResponseDTO> projectAll(Long userId) {
         Users user = userRepository.findById(userId).orElseThrow(()->new UserException(ErrorCode.INVALID_User_Login));
-        Member member = memberRepository.findByUsers(user);
-        Project project = projectRepository.findByMember(member);
-        return null;
+        List<Member> memberList = memberRepository.findByUsers(user);
+        List<ProjectResponseDTO> projectList = new ArrayList<>();
+        for(Member m : memberList)
+            projectList.add(new ProjectResponseDTO(m.getProject().getProjectId(),m.getProject().getName(),m.getRole()));
+        return projectList;
 
 
     }

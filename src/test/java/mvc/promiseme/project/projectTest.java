@@ -1,5 +1,7 @@
 package mvc.promiseme.project;
 
+import mvc.promiseme.project.dto.ProjectRequestDTO;
+import mvc.promiseme.project.dto.ProjectResponseDTO;
 import mvc.promiseme.project.service.ProjectService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +35,16 @@ public class projectTest {
         List<String> result= projectService.categoryRanking();
         for(String s : result)
             System.out.println(s);
+    }
+    @Test
+    public void testProjectAll(){
+        List<ProjectResponseDTO> list = projectService.projectAll(1L);
+        for(ProjectResponseDTO s : list){
+            System.out.println(s.getProjectId());
+            System.out.println(s.getName());
+            System.out.println(s.getRole());
+
+        }
+
     }
 }
