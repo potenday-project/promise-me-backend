@@ -34,7 +34,7 @@ public class ProjectServiceImpl implements ProjectService {
         List<Member> memberList = memberRepository.findByUsers(user);
         List<ProjectResponseDTO> projectList = new ArrayList<>();
         for(Member m : memberList)
-            projectList.add(new ProjectResponseDTO(m.getProject().getProjectId(),m.getProject().getName(),m.getRole()));
+            projectList.add(new ProjectResponseDTO(m.getProject().getProjectId(),m.getProject().getName(),m.getProject().getStart(),m.getProject().getDeadline()));
         return projectList;
 
 

@@ -3,6 +3,8 @@ package mvc.promiseme.project.dto;
 import lombok.*;
 import mvc.promiseme.project.entity.Project;
 
+import java.time.LocalDate;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -11,7 +13,8 @@ import mvc.promiseme.project.entity.Project;
 public class ProjectResponseDTO {
     private Long projectId;
     private String name;
-    private String role;
+    private LocalDate start;
+    private LocalDate deadline;
 
 }
 
