@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import mvc.promiseme.calendar.dto.CalendarResponseDTO;
 import mvc.promiseme.project.dto.ProjectRequestDTO;
 import mvc.promiseme.project.dto.ProjectResponseDTO;
+import mvc.promiseme.project.dto.RecommendMemberRequestDTO;
 import mvc.promiseme.project.service.ProjectService;
+import mvc.promiseme.project.service.RecommendService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +19,10 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins ="*", allowedHeaders = "*")
-@RequestMapping("project")
+@RequestMapping("/project")
 public class ProjectController {
     private final ProjectService projectService;
-
+    private final RecommendService recommendService;
     @GetMapping("/")
     public ResponseEntity<List<ProjectResponseDTO>>calendarAll(@RequestParam("userId") Long userId){
         return ResponseEntity.ok(projectService.projectAll(userId));
@@ -52,6 +54,10 @@ public class ProjectController {
         ddayResult.put("Dday", projectService.dday(projectId));
 
         return ResponseEntity.ok(ddayResult);
+    }
+    @PostMapping("/recommend/member")
+    public ResponseEntity<Map<String,String>> recommendMember(@RequestBody RecommendMemberRequestDTO recommendMemberRequestDTO){
+        return ResponseEntity.ok(recommendService.recommendMember(recommendMemberRequestDTO));
     }
 
 
