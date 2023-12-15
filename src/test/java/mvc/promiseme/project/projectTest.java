@@ -1,5 +1,6 @@
 package mvc.promiseme.project;
 
+import mvc.promiseme.project.dto.MemberDTO;
 import mvc.promiseme.project.dto.ProjectRequestDTO;
 import mvc.promiseme.project.dto.ProjectResponseDTO;
 import mvc.promiseme.project.service.ProjectService;
@@ -9,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,9 +45,22 @@ public class projectTest {
         for(ProjectResponseDTO s : list){
             System.out.println(s.getProjectId());
             System.out.println(s.getName());
-            System.out.println(s.getRole());
 
         }
+    }
+    @Test
+    public void testInsert(){
+        List<MemberDTO> memberDTOList = new ArrayList<>();
+        memberDTOList.add(MemberDTO.builder().role("기획자").userId(1L).build());
+        memberDTOList.add(MemberDTO.builder().role("디자이너").userId(2L).build());
+        memberDTOList.add(MemberDTO.builder().role("프론트개발자").userId(1L).build());
+        ProjectRequestDTO requestDTO = ProjectRequestDTO.builder()
+                .category("웹개발").
+                deadline(LocalDate.parse("2023-12-13"))
+                .name("약속해줘")
+                .start(LocalDate.parse("2023-12-13"))
+                .memberList(memberDTOList).build();
 
+        System.out.println(projectService.insert(requestDTO));
     }
 }
