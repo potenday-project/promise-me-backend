@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mvc.promiseme.calendar.entity.Calendar;
 import mvc.promiseme.meeting.entity.Meeting;
+import mvc.promiseme.project.dto.ProjectRequestDTO;
 import mvc.promiseme.todo.entity.Todo;
 
 import mvc.promiseme.notice.entity.Notice;
@@ -66,4 +67,13 @@ public class Project {
 
     @OneToMany(mappedBy = "project")
     private List<Todo> todoList = new ArrayList<>();
+
+    public Project mapToEntity(ProjectRequestDTO projectRequestDTO){
+        return Project.builder().name(projectRequestDTO.getName())
+                .createdAt(LocalDate.now())
+                .category(projectRequestDTO.getCategory())
+                .start(projectRequestDTO.getStart()).
+                deadline(projectRequestDTO.getDeadline())
+                .isProgress(Progress.PROGRESSING).build();
+    }
 }

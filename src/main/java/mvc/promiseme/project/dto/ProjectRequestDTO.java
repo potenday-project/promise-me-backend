@@ -1,8 +1,10 @@
 package mvc.promiseme.project.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,7 +14,9 @@ import java.time.LocalDate;
 public class ProjectRequestDTO {
     private String name;
     private String category;
-    private String topic;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate start;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate deadline;
+    private List<MemberDTO> memberList;
 }

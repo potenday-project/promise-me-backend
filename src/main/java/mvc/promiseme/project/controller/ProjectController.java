@@ -36,9 +36,13 @@ public class ProjectController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> insert(@RequestBody ProjectRequestDTO projectRequestDTO){
+    public ResponseEntity<Map<String, String>> insert(@RequestBody ProjectRequestDTO projectRequestDTO){
+        Map<String, String> result = new HashMap<>();
 
-        return ResponseEntity.ok(projectService.insert(projectRequestDTO));
+        if (projectService.insert(projectRequestDTO).equals("success"))
+            result.put("message","프로젝트 생성이 완료되었습니다.");
+        else result.put("message", "알 수 없는 에러로 프로젝트를 생성하지 못했습니다. 잠시후 다시 시도해주세요.");
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/progress")
