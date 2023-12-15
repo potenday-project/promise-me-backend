@@ -28,6 +28,19 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
+    - name: make application-api-key.properties
+      run: |
+        cd ./src/main/resources
+        touch ./application-api-key.properties
+        echo "${{ secrets.APPLICATION_API_KEY }}" > ./application-api-key.properties
+
+    - name: make db-application.properties
+      run: |
+        cd ./src/main/resources
+        touch ./db-application.properties
+        echo "${{ secrets.DB_APPLICATION }}" > ./db-application.properties
+    
     - name: Make gradlew executable
       run: chmod +x ./gradlew
     - name: Build with Gradle
