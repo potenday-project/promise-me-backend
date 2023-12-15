@@ -9,6 +9,7 @@ import mvc.promiseme.project.entity.Member;
 import mvc.promiseme.project.entity.Project;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,9 +25,12 @@ public class Notice {
 
     @Column(length = 50)
     private String content;
+    private LocalDate createDate;
 
-    @CreationTimestamp
-    private LocalDateTime createDate;
+    @PrePersist
+    public void prePersist() {
+        this.createDate = LocalDate.now();
+    }
 
     //== 연관 관계 설정 ==//
     @ManyToOne(fetch = FetchType.LAZY)

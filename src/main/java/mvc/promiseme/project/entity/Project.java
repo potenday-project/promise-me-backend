@@ -11,7 +11,9 @@ import mvc.promiseme.todo.entity.Todo;
 
 import mvc.promiseme.notice.entity.Notice;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,24 +29,27 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long projectId;
 
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String name;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Progress isProgress;
 
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String category;
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String topic;
 
-    private LocalDateTime start;
-    private LocalDateTime deadline;
+    private LocalDate start;
+    private LocalDate deadline;
+    private LocalDate createdAt;
 
-    @CreationTimestamp
-    private LocalDateTime createAt;
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDate.now();
+    }
 
     //== 연관관계 설정 ==//
     @OneToMany(mappedBy = "project")
