@@ -23,9 +23,8 @@ public class Todo {
     private String content;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
     @Builder.Default
-    private ToDoStatus isCompleted = ToDoStatus.INCOMPLETE;
+    private boolean isCompleted = false;
 
     private LocalDate todoDate;
     private LocalDate createdAt;

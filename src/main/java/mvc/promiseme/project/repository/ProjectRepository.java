@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ProjectRepository extends JpaRepository<Project,Long> {
 
-    @Query("SELECT CAST((SELECT COUNT(t1) FROM Todo t1 WHERE t1.project.id = :projectId AND t1.isCompleted = 'COMPLETE') / COUNT(t2) * 100 AS INTEGER) " +
+    @Query("SELECT CAST((SELECT COUNT(t1) FROM Todo t1 WHERE t1.project.id = :projectId AND t1.isCompleted = true) / COUNT(t2) * 100 AS INTEGER) " +
             "FROM Todo t2 WHERE t2.project.id = :projectId")
     int getProgress(@Param("projectId") Long projecrtId);
     @Query("SELECT datediff(p.deadline, now()) From Project p where p.projectId = :projectId")
