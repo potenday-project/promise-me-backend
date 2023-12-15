@@ -3,7 +3,6 @@ package mvc.promiseme.meeting.dto;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,5 +14,5 @@ public class MeetingResponseDTO {
     private String summary;
     private String meetingContent;
     private LocalDate meetingDate;
-
+    private String meetingName;
 }
