@@ -25,9 +25,6 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Column(length = 50)
-    private String role;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MemberStatus status;
@@ -45,9 +42,10 @@ public class Member {
     private List<Notice> noticeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Calendar> calendarList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
     private List<Todo> todoList = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
 }

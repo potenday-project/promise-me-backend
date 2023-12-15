@@ -19,10 +19,10 @@ import java.util.List;
 public class CalendarController {
     private final CalendarService calendarService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<CalendarResponseDTO>>calendarAll(@RequestParam Long projectId){
-        return ResponseEntity.ok(calendarService.calendarAll(projectId));
-
-    }
+//    @GetMapping("/")
+//    public ResponseEntity<List<CalendarResponseDTO>>calendarAll(@RequestParam Long projectId){
+//        return ResponseEntity.ok(calendarService.calendarAll(projectId));
+//
+//    }
 
 }

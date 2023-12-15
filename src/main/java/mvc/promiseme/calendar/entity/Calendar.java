@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import mvc.promiseme.project.entity.Member;
 import mvc.promiseme.project.entity.Project;
+import mvc.promiseme.project.entity.Role;
 import mvc.promiseme.todo.entity.Todo;
 
 import java.time.LocalDate;
@@ -37,10 +38,10 @@ public class Calendar {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
     @OneToMany(mappedBy = "calendar")
     private List<Todo> todoList = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
 }
