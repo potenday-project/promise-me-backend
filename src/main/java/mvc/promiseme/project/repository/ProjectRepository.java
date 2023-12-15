@@ -1,6 +1,7 @@
 package mvc.promiseme.project.repository;
 
 import mvc.promiseme.project.dto.ProjectResponseDTO;
+import mvc.promiseme.project.entity.Member;
 import mvc.promiseme.project.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,6 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
 
     @Query("SELECT p.category From Project p group by p.category ORDER BY count (p.category) DESC LIMIT 6")
     List<String> getCategoryRanking();
+
+    Project findByMember(Member member);
 }
