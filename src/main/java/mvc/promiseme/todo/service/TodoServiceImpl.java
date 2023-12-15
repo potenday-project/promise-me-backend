@@ -7,7 +7,6 @@ import mvc.promiseme.project.repository.MemberRepository;
 import mvc.promiseme.project.repository.ProjectRepository;
 import mvc.promiseme.todo.dto.TodoRequestDTO;
 import mvc.promiseme.todo.dto.TodoResponseDTO;
-import mvc.promiseme.todo.entity.ToDoStatus;
 import mvc.promiseme.todo.entity.Todo;
 import mvc.promiseme.todo.repository.TodoRepository;
 import mvc.promiseme.users.entity.Users;
@@ -54,9 +53,8 @@ public class TodoServiceImpl implements TodoService{
     }
 
     private Todo updateStatus(Todo todo){
-        ToDoStatus status = todo.getIsCompleted();
-        if(status.equals(ToDoStatus.COMPLETE)) todo.setIsCompleted(ToDoStatus.INCOMPLETE);
-        else if (status.equals(ToDoStatus.INCOMPLETE)) todo.setIsCompleted(ToDoStatus.COMPLETE);
+        if(todo.isCompleted() == true) todo.setCompleted(false);
+        else if (todo.isCompleted() == false) todo.setCompleted(true);
         return todo;
     }
 

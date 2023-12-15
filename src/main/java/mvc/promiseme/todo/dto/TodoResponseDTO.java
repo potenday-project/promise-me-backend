@@ -1,7 +1,6 @@
 package mvc.promiseme.todo.dto;
 
 import lombok.*;
-import mvc.promiseme.todo.entity.ToDoStatus;
 import mvc.promiseme.todo.entity.Todo;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public class TodoResponseDTO {
 
     private Long todoId;
     private String content;
-    private ToDoStatus isCompleted;
+    private boolean isCompleted;
 
     public List<TodoResponseDTO> convertToDtoList(List<Todo> todoList) {
         return todoList.stream()
@@ -28,7 +27,7 @@ public class TodoResponseDTO {
         return TodoResponseDTO.builder()
                 .todoId(todo.getToDoId())
                 .content(todo.getContent())
-                .isCompleted(todo.getIsCompleted())
+                .isCompleted(todo.isCompleted())
                 .build();
     }
 }

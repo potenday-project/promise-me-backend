@@ -29,17 +29,17 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long projectId;
 
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String name;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Progress isProgress;
 
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String category;
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String topic;
 
     private LocalDate start;
