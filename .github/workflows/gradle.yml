@@ -45,13 +45,13 @@ jobs:
         docker push ${{ secrets.DOCKER_REPO }}
          
     ## 서버에 접속하여 도커 이미지를 pull 받고 실행하기
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v0.1.6
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.HOST }}
         username: ec2-user
         key: ${{ secrets.PRIVATE_KEY }}
-        port: 22
+        port: ${{ secrets.PORT }}
         script: |
           sudo docker stop prod-server
           sudo docker rm prod-server
