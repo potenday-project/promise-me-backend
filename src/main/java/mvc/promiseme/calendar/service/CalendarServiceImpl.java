@@ -12,9 +12,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CalendarServiceImpl implements CalendarService{
     private final CalendarRepository calendarRepository;
-    @Override
-    public List<CalendarResponseDTO> calendarAll(Long projectId) {
-        Project project = Project.builder().projectId(projectId).build();
-        return calendarRepository.findByProject(project);
-    }
+//    @Override
+//    public List<CalendarResponseDTO> calendarAll(Long projectId) {
+//        Project project = Project.builder().projectId(projectId).build();
+//        return calendarRepository.findByProject(project);
+//    }
 }
