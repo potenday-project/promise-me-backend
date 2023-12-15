@@ -17,7 +17,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins ="*", allowedHeaders = "*")
-@RequestMapping("project")
+@RequestMapping("/project")
 public class ProjectController {
     private final ProjectService projectService;
 
