@@ -20,7 +20,7 @@ public class CalendarAndTodoAllByRoleDto {
     @Getter
     @Setter
     @Builder
-    public class MemberDto{
+    public static class MemberDto{
         private String name;
         private List<TodoDTO> todoList;
     }
@@ -31,8 +31,8 @@ public class CalendarAndTodoAllByRoleDto {
     @Getter
     @Setter
     @Builder
-    public class TodoDTO {
+    public static class TodoDTO {
         private String content;
-        private String status;
+        private boolean status;
     }
 }
