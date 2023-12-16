@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Long check(String email) {
+        System.out.println("email : " + email);
         Users checkUser = userRepository.findByEmailIgnoreCase(email);
         if(checkUser == null)
             throw new UserException(ErrorCode.INVALID_User_Login);

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -39,8 +41,8 @@ public class UserController {
     }
 
     @PostMapping("/users/check")
-    public ResponseEntity<Long>check(@RequestBody String email){
-        return ResponseEntity.ok(userService.check(email));
+    public ResponseEntity<Long>check(@RequestBody Map<String, String> requestBody){
+        return ResponseEntity.ok(userService.check(requestBody.get("email")));
     }
 
 

@@ -79,8 +79,8 @@ public class projectTest {
 
     @Test
     public void testCheckUSer(){
-        Long id = userService.check("a@gmail.com");
-        System.out.println(id);
+        Long id = userService.check("bbb@gmail.com");
+        System.out.println("id" +id);
     }
 
 }
