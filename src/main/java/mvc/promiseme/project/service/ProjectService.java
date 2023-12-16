@@ -9,7 +9,7 @@ public interface ProjectService {
     public List<ProjectResponseDTO> projectAll(Long userId);
     public List<String> categoryRanking();
 
-    public String insert (ProjectRequestDTO projectRequestDTO);
+    public Long insert (ProjectRequestDTO projectRequestDTO);
     public int progress(Long projectId);
     public int dday (Long projectId);
 

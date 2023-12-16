@@ -1,14 +1,19 @@
 package mvc.promiseme.project;
 
+import mvc.promiseme.project.dto.MemberDTO;
 import mvc.promiseme.project.dto.ProjectRequestDTO;
 import mvc.promiseme.project.dto.ProjectResponseDTO;
+import mvc.promiseme.project.dto.RecommendScheduleRequestDTO;
 import mvc.promiseme.project.service.ProjectService;
+import mvc.promiseme.project.service.RecommendService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +24,9 @@ public class projectTest {
 
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private RecommendService recommendService;
+
     @Test
     public void testGetDday() {
         int dday= projectService.dday(1L);
@@ -42,9 +50,27 @@ public class projectTest {
         for(ProjectResponseDTO s : list){
             System.out.println(s.getProjectId());
             System.out.println(s.getName());
-            System.out.println(s.getRole());
 
         }
+    }
+    @Test
+    public void testInsert(){
+        List<MemberDTO> memberDTOList = new ArrayList<>();
+        memberDTOList.add(MemberDTO.builder().role("기획자").userId(1L).build());
+        memberDTOList.add(MemberDTO.builder().role("디자이너").userId(2L).build());
+        memberDTOList.add(MemberDTO.builder().role("프론트 개발자").userId(3L).build());
+        memberDTOList.add(MemberDTO.builder().role("백엔드 개발자").userId(4L).build());
+        ProjectRequestDTO requestDTO = ProjectRequestDTO.builder()
+                .category("웹개발").
+                deadline(LocalDate.parse("2023-12-17"))
+                .name("포텐데이")
+                .start(LocalDate.parse("2023-12-03"))
+                .memberList(memberDTOList).build();
 
+        System.out.println(projectService.insert(requestDTO));
+    }
+    @Test
+    public void testRecommendSchedule(){
+        recommendService.recommendSchedule(new RecommendScheduleRequestDTO(8L,"웹개발","기획자,백엔드개발자,프론트개발자,디자이너",LocalDate.parse("2023-10-13"),LocalDate.parse("2023-12-14")));
     }
 }

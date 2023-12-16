@@ -14,10 +14,12 @@ public class ClovaStudioRecommend {
 
     @Value("${RECOMMEND_URL}")
     private String url;
-    @Value("${API_KEY_CLOVA_STUDIO}")
+    @Value("${RECOMMEND_API_KEY}")
     private String apiKeyClovaStudio;
-    @Value("${API_KEY}")
-    private String apiKey;
-    @Value("${REQUEST_ID}")
-    private String requestId;
+    @Value("${RECOMMEND_API_GATE_WAY_KEY}")
+    private String apiGateWayKey;
+    @Value("${RECOMMEND_MEMBER_REQUEST_ID}")
+    private String requestMemberId;
+    @Value("${RECOMMEND_SCHEDULE_REQUEST_ID}")
+    private String requestScheduleId;
 }

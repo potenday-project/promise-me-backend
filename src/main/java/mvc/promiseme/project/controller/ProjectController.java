@@ -6,6 +6,7 @@ import mvc.promiseme.calendar.dto.CalendarResponseDTO;
 import mvc.promiseme.project.dto.ProjectRequestDTO;
 import mvc.promiseme.project.dto.ProjectResponseDTO;
 import mvc.promiseme.project.dto.RecommendMemberRequestDTO;
+import mvc.promiseme.project.dto.RecommendScheduleRequestDTO;
 import mvc.promiseme.project.service.ProjectService;
 import mvc.promiseme.project.service.RecommendService;
 import org.springframework.http.ResponseEntity;
@@ -36,15 +37,18 @@ public class ProjectController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> insert(@RequestBody ProjectRequestDTO projectRequestDTO){
+    public ResponseEntity<Map<String, Long>> insert(@RequestBody ProjectRequestDTO projectRequestDTO){
+        Map<String, Long> result = new HashMap<>();
 
-        return ResponseEntity.ok(projectService.insert(projectRequestDTO));
+
+            result.put("projectId",projectService.insert(projectRequestDTO));
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/progress")
     public ResponseEntity<Map<String, Integer>> progress(@RequestParam("projectId")Long projectId){
         Map<String,Integer> progressResult = new HashMap<>();
-        progressResult.put("Prgress", projectService.progress(projectId));
+        progressResult.put("progress", projectService.progress(projectId));
         return ResponseEntity.ok(progressResult);
     }
 
@@ -59,6 +63,9 @@ public class ProjectController {
     public ResponseEntity<Map<String,String>> recommendMember(@RequestBody RecommendMemberRequestDTO recommendMemberRequestDTO){
         return ResponseEntity.ok(recommendService.recommendMember(recommendMemberRequestDTO));
     }
-
+    @PostMapping("/recommend/schedule")
+    public ResponseEntity<List<Map<String, String>>> recommendSchedule(@RequestBody RecommendScheduleRequestDTO recommendScheduleRequestDTO){
+        return ResponseEntity.ok(recommendService.recommendSchedule(recommendScheduleRequestDTO));
+    }
 
 }
