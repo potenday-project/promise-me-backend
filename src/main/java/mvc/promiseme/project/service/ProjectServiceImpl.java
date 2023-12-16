@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import mvc.promiseme.common.exception.ErrorCode;
 import mvc.promiseme.common.exception.UserException;
 import mvc.promiseme.project.dto.MemberDTO;
+import mvc.promiseme.project.dto.MemberRequestDTO;
 import mvc.promiseme.project.dto.ProjectRequestDTO;
 import mvc.promiseme.project.dto.ProjectResponseDTO;
 import mvc.promiseme.project.entity.Member;
@@ -15,6 +16,7 @@ import mvc.promiseme.project.repository.ProjectRepository;
 import mvc.promiseme.project.repository.RoleRepository;
 import mvc.promiseme.todo.dto.TodoRequestDTO;
 import mvc.promiseme.todo.entity.Todo;
+import mvc.promiseme.todo.repository.TodoRepository;
 import mvc.promiseme.users.entity.Users;
 import mvc.promiseme.users.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final UserRepository userRepository;
     private final MemberRepository memberRepository;
     private final RoleRepository roleRepository;
+    private final TodoRepository todoRepository;
     @Override
     @Transactional
     public List<ProjectResponseDTO> projectAll(Long userId) {
@@ -54,9 +57,9 @@ public class ProjectServiceImpl implements ProjectService {
             Project project = p.mapToEntity(projectRequestDTO);
             projectRepository.save(project);
             System.out.println("projectId : " + project.getProjectId());
-            List<MemberDTO> memberList = projectRequestDTO.getMemberList();
+            List<MemberRequestDTO> memberList = projectRequestDTO.getMemberList();
 
-            for(MemberDTO m : memberList){
+            for(MemberRequestDTO m : memberList){
                 Role r = new Role();
                 Role role = roleRepository.findByName(m.getRole());
                 if(role==null) {
@@ -64,7 +67,7 @@ public class ProjectServiceImpl implements ProjectService {
                     roleRepository.save(role);
                 }
                 System.out.println("role name "+role.getName());
-                Users user = userRepository.findById(m.getUserId()).orElseThrow(() -> new NoSuchElementException("[ERROR] 해당하는 사용자가 존재하지 않습니다."));
+                Users user = userRepository.findByEmailIgnoreCase(m.getEmail());
                 Member member = Member.builder().project(project).role(role).users(user).status(MemberStatus.PARTICIPATION).build();
                 memberRepository.save(member);
             }
@@ -77,6 +80,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public int progress(Long projectId) {
+        Project project= projectRepository.findById(projectId).orElseThrow(()->new NoSuchElementException("프로젝트를 찾을 수 없습니다."));
+        List<Todo> todoList= todoRepository.findByProject(project);
+        if(todoList.isEmpty()) return 0;
         return projectRepository.getProgress(projectId);
 
     }
