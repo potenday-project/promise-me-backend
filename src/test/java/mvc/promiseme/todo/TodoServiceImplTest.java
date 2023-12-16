@@ -6,6 +6,7 @@ import mvc.promiseme.project.repository.MemberRepository;
 import mvc.promiseme.project.repository.ProjectRepository;
 import mvc.promiseme.todo.dto.TodoRequestDTO;
 import mvc.promiseme.todo.repository.TodoRepository;
+import mvc.promiseme.todo.service.TodoService;
 import mvc.promiseme.todo.service.TodoServiceImpl;
 import mvc.promiseme.users.entity.Users;
 import mvc.promiseme.users.repository.UserRepository;
@@ -14,7 +15,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -96,5 +99,10 @@ class TodoServiceImplTest {
 
         assertThrows(NoSuchElementException.class, () -> todoService.insert(todoRequestDTO));
         verify(todoRepository, never()).save(any());
+    }
+    @Test
+    public void getMember(){
+        TodoRequestDTO todoRequestDTO = TodoRequestDTO.builder().todoDate(LocalDate.parse("2023-12-17")).projectId(3L).content("잠자기").userId(1L).build();
+        todoService.insert(todoRequestDTO);
     }
 }

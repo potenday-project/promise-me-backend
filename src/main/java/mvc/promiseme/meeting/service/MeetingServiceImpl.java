@@ -47,7 +47,8 @@ public class MeetingServiceImpl implements MeetingService {
         String summary = summaryTextService.summary(transferredText);
         if(summary == null) throw new SummaryException("[ERROR] summary fail");
 
-        updateEmptyRecord(meeting, transferredText, summary);
+        String meetingName = summaryTextService.getTitle(summary);
+        updateEmptyRecord(meeting, transferredText, meetingName,summary);
         return "success";
     }
 
@@ -56,7 +57,9 @@ public class MeetingServiceImpl implements MeetingService {
         Meeting meeting = addEmptyRecord(projectId);
         String summary = summaryTextService.summary(text);
         if(summary == null) throw new SummaryException("[ERROR] summary fail");
-        updateEmptyRecord(meeting, text, summary);
+
+        String meetingName = summaryTextService.getTitle(summary);
+        updateEmptyRecord(meeting, text,meetingName, summary);
         return "success";
     }
 
@@ -71,10 +74,10 @@ public class MeetingServiceImpl implements MeetingService {
         return meeting;
     }
 
-    private void updateEmptyRecord(Meeting meeting, String content, String summary){
+    private void updateEmptyRecord(Meeting meeting, String content,String meetingName, String summary){
         meeting.setMeetingContent(content);
         meeting.setSummary(summary);
-        meeting.setMeetingName("제목 생성 예정");
+        meeting.setMeetingName(meetingName);
         meetingRepository.save(meeting);
     }
 
