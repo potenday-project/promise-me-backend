@@ -3,11 +3,18 @@ package mvc.promiseme.project.service;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
+import mvc.promiseme.calendar.entity.Calendar;
+import mvc.promiseme.calendar.repository.CalendarRepository;
 import mvc.promiseme.project.dto.Message;
 import mvc.promiseme.project.dto.RecommendMemberRequestDTO;
 import mvc.promiseme.project.dto.RecommendScheduleRequestDTO;
+import mvc.promiseme.project.entity.Project;
+import mvc.promiseme.project.entity.Role;
+import mvc.promiseme.project.repository.ProjectRepository;
+import mvc.promiseme.project.repository.RoleRepository;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
@@ -20,6 +27,9 @@ import java.util.regex.Pattern;
 public class RecommendServiceImpl implements RecommendService{
 
     private final ClovaStudioRecommend clovaStudioRecommend;
+    private final ProjectRepository projectRepository;
+    private final CalendarRepository calendarRepository;
+    private final RoleRepository roleRepository;
     @Override
     public Map<String, String> recommendMember(RecommendMemberRequestDTO recommendMemberRequestDTO) {
         String url = clovaStudioRecommend.getUrl();
@@ -81,6 +91,7 @@ public class RecommendServiceImpl implements RecommendService{
         }
         return roleDescriptions;
     }
+    @Transactional
     public List<Map<String, String>> recommendSchedule(RecommendScheduleRequestDTO recommendScheduleRequestDTO) {
         String url = clovaStudioRecommend.getUrl();
         String apiKeyClovaStudio = clovaStudioRecommend.getApiKeyClovaStudio();
@@ -96,7 +107,7 @@ public class RecommendServiceImpl implements RecommendService{
         Message userMessage = new Message("user","나는 웹개발프로젝트를 진행할예정입니다. 시작날짜는 2023-12-07, 마감날짜는 2023-12-31입니다. 우리팀은 기획자, 백엔드개발자, 프론트개발자,디자이너가 있습니다. 기간 내에 각 역할별로 해야하는 업무를 알려주세요.  각자 프로젝트에서 해야하는 업무도 알려주고 그 업무들의 순서를 정해줬으면 좋겠습니다. 각 업무의 시작날짜와 마감날짜도 함께 알려주세요. 시작날짜와 마감날짜 형식은 \"yyyy-MM-dd\" 형식으로 작성해주세요. 다른 말 필요없이\n" +
                 "\n" +
                 "\"역할\" \n" +
-                "\"해야할 업무\" (시작날짜 ~ 마감날짜)로만 대답해주세요. 다른 말 없이 역할과 해야할 업무, 시작날짜, 마감날짜만 작성해주세요. ");
+                "\"해야할 업무\" (시작날짜 ~ 마감날짜)로만 대답해주세요. 다른 말 없이 역할과 해야할 업무, 시작날짜, 마감날짜만 작성해주세요. 역할 앞에 숫자를 넣지 말고, 업무 앞에 -를 넣지 마세요. ");
         messages.add(userMessage);
 
         // 세 번째 메시지
@@ -124,7 +135,7 @@ public class RecommendServiceImpl implements RecommendService{
         Message requestMessage = new Message("user", "나는" + recommendScheduleRequestDTO.getCategory() + "프로젝트를 진행할예정입니다. 시작날짜는" + recommendScheduleRequestDTO.getStart() + ", 마감날짜는" + recommendScheduleRequestDTO.getDeadline() + "입니다. 우리팀은"+recommendScheduleRequestDTO.getMember()+"가 있습니다. 기간 내에 각 역할별로 해야하는 업무를 알려주세요.  각자 프로젝트에서 해야하는 업무도 알려주고 그 업무들의 순서를 정해줬으면 좋겠습니다. 각 업무의 시작날짜와 마감날짜도 함께 알려주세요. 시작날짜와 마감날짜 형식은 \"yyyy-MM-dd\" 형식으로 작성해주세요. 다른 말 필요없이\n" +
                 "\n" +
                 "\"역할\" \n" +
-                "\"해야할 업무\" (시작날짜 ~ 마감날짜)로만 대답해주세요. 다른 말 없이 역할과 해야할 업무, 시작날짜, 마감날짜만 작성해주세요. ");
+                "\"해야할 업무\" (시작날짜 ~ 마감날짜)로만 대답해주세요. 다른 말 없이 역할과 해야할 업무, 시작날짜, 마감날짜만 작성해주세요. 역할 앞에 숫자를 넣지 말고, 업무 앞에 -를 넣지 마세요. ");
         messages.add(requestMessage);
 
         HttpHeaders headers = new HttpHeaders();
@@ -162,6 +173,20 @@ public class RecommendServiceImpl implements RecommendService{
             String[] rolePair = line.split("\n");
             if (rolePair.length > 0) {
                 String role = rolePair[0].trim();
+                String rolePattern = "(\\d+\\.\\s*)?(.+)";
+                Pattern roleRegex = Pattern.compile(rolePattern);
+                Matcher roleMatcher = roleRegex.matcher(role);
+
+                if (roleMatcher.matches()) {
+                    String roleNumber = roleMatcher.group(1); // 1.
+                    role = roleMatcher.group(2); // 기획자
+
+                    // 숫자와 점을 제거한 role
+                    role = role.trim();
+                }
+
+                if(Character.isDigit(role.charAt(0)))
+                    role = role.substring(4);
                 for (int i = 1; i < rolePair.length; i++) {
                     Map<String, String> roleSchedule = new HashMap<>();
                     String patternString = "(.*?) \\((.*?) ~ (.*?)\\)";
@@ -175,6 +200,14 @@ public class RecommendServiceImpl implements RecommendService{
                     // 매칭되는 그룹 찾기
                     if (matcher.find()) {
                         String task = matcher.group(1).trim();
+                        String taskPattern = "-?\\s*(.+)";
+
+                        Pattern taskRegex = Pattern.compile(taskPattern);
+                        Matcher taskMatcher = taskRegex.matcher(task);
+
+                        if (taskMatcher.matches())
+                            task = taskMatcher.group(1).trim();
+
                         String startDate = matcher.group(2).trim();
                         String endDate = matcher.group(3).trim();
 
@@ -217,7 +250,23 @@ public class RecommendServiceImpl implements RecommendService{
                 }
             }
         }
+        insertCalender(recommendScheduleRequestDTO.getProjectId(),roleScheduleList);
         return roleScheduleList;
+    }
+
+    @Transactional
+    public void insertCalender(Long projectId, List<Map<String, String>> roleScheduleList) {
+        Project project = projectRepository.findById(projectId).orElseThrow(()->new NoSuchElementException("[ERROR] 해당하는 프로젝트가 존재하지 않습니다."));
+        for(Map<String,String> map : roleScheduleList){
+            Role r = new Role();
+            Role role = roleRepository.findByName(map.get("role"));
+            if(role==null) {
+                role = Role.builder().name(map.get("role")).build();
+                roleRepository.save(role);
+            }
+            Calendar calendar = Calendar.builder().project(project).role(role).content(map.get("content")).finishDate(LocalDate.parse(map.get("finish"))).startDate(LocalDate.parse(map.get("start"))).build();
+            calendarRepository.save(calendar);
+        }
     }
 
 }

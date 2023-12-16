@@ -1,10 +1,7 @@
 package mvc.promiseme.calendar.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import mvc.promiseme.project.entity.Member;
 import mvc.promiseme.project.entity.Project;
@@ -20,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Builder
 public class Calendar {
 
