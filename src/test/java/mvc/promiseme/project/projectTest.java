@@ -58,18 +58,19 @@ public class projectTest {
         List<MemberDTO> memberDTOList = new ArrayList<>();
         memberDTOList.add(MemberDTO.builder().role("기획자").userId(1L).build());
         memberDTOList.add(MemberDTO.builder().role("디자이너").userId(2L).build());
-        memberDTOList.add(MemberDTO.builder().role("프론트개발자").userId(1L).build());
+        memberDTOList.add(MemberDTO.builder().role("프론트 개발자").userId(3L).build());
+        memberDTOList.add(MemberDTO.builder().role("백엔드 개발자").userId(4L).build());
         ProjectRequestDTO requestDTO = ProjectRequestDTO.builder()
                 .category("웹개발").
-                deadline(LocalDate.parse("2023-12-13"))
-                .name("약속해줘")
-                .start(LocalDate.parse("2023-12-13"))
+                deadline(LocalDate.parse("2023-12-17"))
+                .name("포텐데이")
+                .start(LocalDate.parse("2023-12-03"))
                 .memberList(memberDTOList).build();
 
         System.out.println(projectService.insert(requestDTO));
     }
     @Test
     public void testRecommendSchedule(){
-        recommendService.recommendSchedule(new RecommendScheduleRequestDTO("웹개발","기획자,백엔드개발자,프론트개발자,디자이너",LocalDate.parse("2023-10-13"),LocalDate.parse("2023-12-14")));
+        recommendService.recommendSchedule(new RecommendScheduleRequestDTO(8L,"웹개발","기획자,백엔드개발자,프론트개발자,디자이너",LocalDate.parse("2023-10-13"),LocalDate.parse("2023-12-14")));
     }
 }

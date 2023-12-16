@@ -48,7 +48,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
     @Transactional
     @Override
-    public String insert(ProjectRequestDTO projectRequestDTO) {
+    public Long insert(ProjectRequestDTO projectRequestDTO) {
         try{
             Project p = new Project();
             Project project = p.mapToEntity(projectRequestDTO);
@@ -68,10 +68,10 @@ public class ProjectServiceImpl implements ProjectService {
                 Member member = Member.builder().project(project).role(role).users(user).status(MemberStatus.PARTICIPATION).build();
                 memberRepository.save(member);
             }
-            return "success";
+            return project.getProjectId();
 
         }catch (Exception e){
-            return "error";
+            throw new UserException(ErrorCode.DUPLICATE_USER);
         }
     }
 
