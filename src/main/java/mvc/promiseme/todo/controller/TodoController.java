@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -36,7 +37,9 @@ public class TodoController {
     }
 
     @PostMapping("/check")
-    public ResponseEntity<String> checkTodo(@RequestBody Long todoId){
+    public ResponseEntity<String> checkTodo(@RequestBody Map<String, Object> requestBody){
+        Integer tmp = (Integer) requestBody.get("todoId");
+        Long todoId = Long.valueOf(tmp);
         return ResponseEntity.ok(todoService.check(todoId));
     }
 }
