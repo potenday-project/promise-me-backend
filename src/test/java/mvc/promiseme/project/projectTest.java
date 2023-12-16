@@ -6,6 +6,7 @@ import mvc.promiseme.project.dto.ProjectResponseDTO;
 import mvc.promiseme.project.dto.RecommendScheduleRequestDTO;
 import mvc.promiseme.project.service.ProjectService;
 import mvc.promiseme.project.service.RecommendService;
+import mvc.promiseme.users.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
@@ -26,6 +27,8 @@ public class projectTest {
     private ProjectService projectService;
     @Autowired
     private RecommendService recommendService;
+    @Autowired
+    private UserService userService;
 
     @Test
     public void testGetDday() {
@@ -73,4 +76,11 @@ public class projectTest {
     public void testRecommendSchedule(){
         recommendService.recommendSchedule(new RecommendScheduleRequestDTO(8L,"웹개발","기획자,백엔드개발자,프론트개발자,디자이너",LocalDate.parse("2023-10-13"),LocalDate.parse("2023-12-14")));
     }
+
+    @Test
+    public void testCheckUSer(){
+        Long id = userService.check("a@gmail.com");
+        System.out.println(id);
+    }
+
 }
