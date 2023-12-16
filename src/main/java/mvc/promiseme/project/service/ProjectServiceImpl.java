@@ -16,6 +16,7 @@ import mvc.promiseme.project.repository.ProjectRepository;
 import mvc.promiseme.project.repository.RoleRepository;
 import mvc.promiseme.todo.dto.TodoRequestDTO;
 import mvc.promiseme.todo.entity.Todo;
+import mvc.promiseme.todo.repository.TodoRepository;
 import mvc.promiseme.users.entity.Users;
 import mvc.promiseme.users.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final UserRepository userRepository;
     private final MemberRepository memberRepository;
     private final RoleRepository roleRepository;
+    private final TodoRepository todoRepository;
     @Override
     @Transactional
     public List<ProjectResponseDTO> projectAll(Long userId) {
@@ -78,6 +80,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public int progress(Long projectId) {
+        Project project= projectRepository.findById(projectId).orElseThrow(()->new NoSuchElementException("프로젝트를 찾을 수 없습니다."));
+        List<Todo> todoList= todoRepository.findByProject(project);
+        if(todoList.isEmpty()) return 0;
         return projectRepository.getProgress(projectId);
 
     }
