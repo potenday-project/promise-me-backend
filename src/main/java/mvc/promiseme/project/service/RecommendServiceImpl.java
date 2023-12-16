@@ -264,7 +264,7 @@ public class RecommendServiceImpl implements RecommendService{
                 role = Role.builder().name(map.get("role")).build();
                 roleRepository.save(role);
             }
-            Calendar calendar = Calendar.builder().project(project).role(role).content(map.get("content")).finishDate(LocalDate.parse(map.get("finish"))).startDate(LocalDate.parse(map.get("start"))).build();
+            Calendar calendar = Calendar.builder().project(project).role(role).content(map.get("task")).finishDate(LocalDate.parse(map.get("finish"))).startDate(LocalDate.parse(map.get("start"))).build();
             calendarRepository.save(calendar);
         }
     }
