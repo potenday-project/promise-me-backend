@@ -89,11 +89,7 @@ public class SummaryTextServiceImpl implements SummaryTextService{
                 "\n" +
                 "\n" +
                 "\n" +
-                "- 부서원도 한 명 줄었고 다들 열심히 해보자고 함\n" +
-                " - 중대 발표를 해야 할 것 같다고 함\n" +
-                " - 회사에서 부서에 떨어진 프로젝트가 치킨임\n" +
-                " - 치킨이 굉장히 많고 고생이 많기 때문에 걱정이 됨\n" +
-                " - 회의할 때 딴 짓 하지 말고 집중하라고 함\n" +
+                summary+
                 "\n" +
                 "\n" +
                 "회의록 제목 : [제목]\n" +
