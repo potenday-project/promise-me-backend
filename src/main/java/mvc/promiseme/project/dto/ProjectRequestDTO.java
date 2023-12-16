@@ -18,5 +18,5 @@ public class ProjectRequestDTO {
     private LocalDate start;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate deadline;
-    private List<MemberDTO> memberList;
+    private List<MemberRequestDTO> memberList;
 }

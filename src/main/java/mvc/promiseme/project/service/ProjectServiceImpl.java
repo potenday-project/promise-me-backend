@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import mvc.promiseme.common.exception.ErrorCode;
 import mvc.promiseme.common.exception.UserException;
 import mvc.promiseme.project.dto.MemberDTO;
+import mvc.promiseme.project.dto.MemberRequestDTO;
 import mvc.promiseme.project.dto.ProjectRequestDTO;
 import mvc.promiseme.project.dto.ProjectResponseDTO;
 import mvc.promiseme.project.entity.Member;
@@ -54,9 +55,9 @@ public class ProjectServiceImpl implements ProjectService {
             Project project = p.mapToEntity(projectRequestDTO);
             projectRepository.save(project);
             System.out.println("projectId : " + project.getProjectId());
-            List<MemberDTO> memberList = projectRequestDTO.getMemberList();
+            List<MemberRequestDTO> memberList = projectRequestDTO.getMemberList();
 
-            for(MemberDTO m : memberList){
+            for(MemberRequestDTO m : memberList){
                 Role r = new Role();
                 Role role = roleRepository.findByName(m.getRole());
                 if(role==null) {
@@ -64,7 +65,7 @@ public class ProjectServiceImpl implements ProjectService {
                     roleRepository.save(role);
                 }
                 System.out.println("role name "+role.getName());
-                Users user = userRepository.findById(m.getUserId()).orElseThrow(() -> new NoSuchElementException("[ERROR] 해당하는 사용자가 존재하지 않습니다."));
+                Users user = userRepository.findByEmailIgnoreCase(m.getEmail());
                 Member member = Member.builder().project(project).role(role).users(user).status(MemberStatus.PARTICIPATION).build();
                 memberRepository.save(member);
             }
