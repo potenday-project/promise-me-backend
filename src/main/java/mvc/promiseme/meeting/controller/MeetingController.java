@@ -3,6 +3,7 @@ package mvc.promiseme.meeting.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mvc.promiseme.meeting.dto.MeetingResponseDTO;
+import mvc.promiseme.meeting.dto.SummaryRequestDTO;
 import mvc.promiseme.meeting.service.MeetingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class MeetingController {
     }
 
     @PostMapping("/summary")
-    public ResponseEntity<String> summaryText(@RequestParam("meetingContent") String meetingContent, @RequestParam("projectId") Long projectId){
-        return ResponseEntity.ok(meetingService.textToMeeting(meetingContent, projectId));
+    public ResponseEntity<String> summaryText(@RequestBody SummaryRequestDTO summaryRequestDTO) {
+        return ResponseEntity.ok(meetingService.textToMeeting(summaryRequestDTO.getMeetingContent(), summaryRequestDTO.getProjectId()));
     }
 }

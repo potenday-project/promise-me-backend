@@ -22,4 +22,6 @@ public class ClovaStudioRecommend {
     private String requestMemberId;
     @Value("${RECOMMEND_SCHEDULE_REQUEST_ID}")
     private String requestScheduleId;
+    @Value("CREATE_TITLE_REQUEST_ID")
+    private String createTitleId;
 }
