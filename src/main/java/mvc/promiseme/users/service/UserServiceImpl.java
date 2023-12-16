@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     @Override
     public String register(UserDTO userDTO) {
-        if(userRepository.findByEmail(userDTO.getEmail()) != null) {
+        if(userRepository.findByEmailIgnoreCase(userDTO.getEmail()) != null) {
             throw new UserException(ErrorCode.DUPLICATE_USER);
         }
         Users users = Users.builder().
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
 
-        Users loginUser = userRepository.findByEmail(loginRequestDTO.getEmail());
+        Users loginUser = userRepository.findByEmailIgnoreCase(loginRequestDTO.getEmail());
         if(loginUser == null)
             throw new UserException(ErrorCode.INVALID_User_Login);
 
@@ -47,7 +47,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Long check(String email) {
-        Users checkUser = userRepository.findByEmail(email);
+        System.out.println("email : " + email);
+        Users checkUser = userRepository.findByEmailIgnoreCase(email);
         if(checkUser == null)
             throw new UserException(ErrorCode.INVALID_User_Login);
 
