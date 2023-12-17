@@ -242,8 +242,11 @@ public class RecommendServiceImpl implements RecommendService{
                             roleSchedule.put("start", startDate);
                             roleSchedule.put("finish", endDate);
                         } else {
-                            System.out.println("No match found for line: " + line);
-                            // 이 부분에서 예외 처리 또는 로깅을 수행할 수 있습니다.
+                            String task = rolePair[i].split("\\(")[0].trim();
+                            String start = rolePair[i].split("\\(")[0].split("~")[0].trim();
+                            roleSchedule.put("role", role);
+                            roleSchedule.put("task", task);
+                            roleSchedule.put("start", start);
                         }
                     }
                     roleScheduleList.add(roleSchedule);
@@ -264,6 +267,8 @@ public class RecommendServiceImpl implements RecommendService{
                 role = Role.builder().name(map.get("role")).build();
                 roleRepository.save(role);
             }
+            if(!map.containsKey("finish"))
+                map.put("finish",project.getDeadline().toString());
             Calendar calendar = Calendar.builder().project(project).role(role).content(map.get("task")).finishDate(LocalDate.parse(map.get("finish"))).startDate(LocalDate.parse(map.get("start"))).build();
             calendarRepository.save(calendar);
         }
