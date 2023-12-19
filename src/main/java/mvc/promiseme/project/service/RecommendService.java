@@ -1,9 +1,7 @@
 package mvc.promiseme.project.service;
 
-import lombok.RequiredArgsConstructor;
 import mvc.promiseme.project.dto.RecommendMemberRequestDTO;
 import mvc.promiseme.project.dto.RecommendScheduleRequestDTO;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;

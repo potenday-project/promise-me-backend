@@ -1,12 +1,8 @@
 package mvc.promiseme.calendar.service;
 
 import lombok.RequiredArgsConstructor;
-import mvc.promiseme.calendar.dto.CalendarResponseDTO;
 import mvc.promiseme.calendar.repository.CalendarRepository;
-import mvc.promiseme.project.entity.Project;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

@@ -2,7 +2,6 @@ package mvc.promiseme.project.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mvc.promiseme.calendar.dto.CalendarResponseDTO;
 import mvc.promiseme.project.dto.ProjectRequestDTO;
 import mvc.promiseme.project.dto.ProjectResponseDTO;
 import mvc.promiseme.project.dto.RecommendMemberRequestDTO;

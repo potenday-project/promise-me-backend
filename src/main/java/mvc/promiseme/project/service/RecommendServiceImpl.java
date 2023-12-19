@@ -32,9 +32,7 @@ public class RecommendServiceImpl implements RecommendService{
     private final RoleRepository roleRepository;
     @Override
     public Map<String, String> recommendMember(RecommendMemberRequestDTO recommendMemberRequestDTO) {
-        String url = clovaStudioRecommend.getUrl();
-        String apiKeyClovaStudio = clovaStudioRecommend.getApiKeyClovaStudio();
-
+        String requestId = clovaStudioRecommend.getRequestMemberId();
 
         List<Message> messages = new ArrayList<>();
 
@@ -52,27 +50,7 @@ public class RecommendServiceImpl implements RecommendService{
 
         Message requestMessage = new Message("user", "나는" + recommendMemberRequestDTO.getCategory() + "프로젝트를 진행할예정입니다. 시작날짜는" + recommendMemberRequestDTO.getStart() + ", 마감날짜는" + recommendMemberRequestDTO.getDeadline() + "입니다. 이때 필요한 팀의 구성원 역할을 알려주세요. 다른 말 필요없이\n\"역할\" : \"역할이 해야할일\"\n로만 대답해주세요. 다른 말 없이 역할과 역할이 해야할일만 작성해주세요.");
         messages.add(requestMessage);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-NCP-CLOVASTUDIO-API-KEY", apiKeyClovaStudio);
-        headers.set("X-NCP-APIGW-API-KEY", clovaStudioRecommend.getApiGateWayKey());
-        headers.set("X-NCP-CLOVASTUDIO-REQUEST-ID", clovaStudioRecommend.getRequestMemberId());
-        headers.set("Content-Type", "application/json");
-
-        Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("messages", messages);
-        requestBody.put("topP", 0.8);
-        requestBody.put("topK", 0);
-        requestBody.put("maxTokens", 256);
-        requestBody.put("temperature", 0.5);
-        requestBody.put("repeatPenalty", 5.0);
-        requestBody.put("includeAiFilters", "True");
-
-        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-
+        ResponseEntity<String> responseEntity = fetchClovaAPI(messages,requestId);
         JsonObject jsonObject = JsonParser.parseString(responseEntity.getBody()).getAsJsonObject();
         JsonObject messageObject = jsonObject.getAsJsonObject("result").getAsJsonObject("message");
         String content = messageObject.get("content").getAsString();
@@ -93,10 +71,8 @@ public class RecommendServiceImpl implements RecommendService{
     }
     @Transactional
     public List<Map<String, String>> recommendSchedule(RecommendScheduleRequestDTO recommendScheduleRequestDTO) {
-        String url = clovaStudioRecommend.getUrl();
-        String apiKeyClovaStudio = clovaStudioRecommend.getApiKeyClovaStudio();
-
-
+        String requestId = clovaStudioRecommend.getRequestScheduleId();
+        
         List<Message> messages = new ArrayList<>();
 
         // 첫 번째 메시지
@@ -138,26 +114,8 @@ public class RecommendServiceImpl implements RecommendService{
                 "\"해야할 업무\" (시작날짜 ~ 마감날짜)로만 대답해주세요. 다른 말 없이 역할과 해야할 업무, 시작날짜, 마감날짜만 작성해주세요. 역할 앞에 숫자를 넣지 말고, 업무 앞에 -를 넣지 마세요. ");
         messages.add(requestMessage);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-NCP-CLOVASTUDIO-API-KEY", apiKeyClovaStudio);
-        headers.set("X-NCP-APIGW-API-KEY", clovaStudioRecommend.getApiGateWayKey());
-        headers.set("X-NCP-CLOVASTUDIO-REQUEST-ID", clovaStudioRecommend.getRequestScheduleId());
-        headers.set("Content-Type", "application/json");
-
-        Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("messages", messages);
-        requestBody.put("topP", 0.8);
-        requestBody.put("topK", 0);
-        requestBody.put("maxTokens", 256);
-        requestBody.put("temperature", 0.5);
-        requestBody.put("repeatPenalty", 5.0);
-        requestBody.put("includeAiFilters", "True");
-
-        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-
+        ResponseEntity<String> responseEntity = fetchClovaAPI(messages,requestId);
+        
         JsonObject jsonObject = JsonParser.parseString(responseEntity.getBody()).getAsJsonObject();
         JsonObject messageObject = jsonObject.getAsJsonObject("result").getAsJsonObject("message");
         String content = messageObject.get("content").getAsString();
@@ -178,7 +136,6 @@ public class RecommendServiceImpl implements RecommendService{
                 Matcher roleMatcher = roleRegex.matcher(role);
 
                 if (roleMatcher.matches()) {
-                    String roleNumber = roleMatcher.group(1); // 1.
                     role = roleMatcher.group(2); // 기획자
 
                     // 숫자와 점을 제거한 role
@@ -259,6 +216,7 @@ public class RecommendServiceImpl implements RecommendService{
 
     @Transactional
     public void insertCalender(Long projectId, List<Map<String, String>> roleScheduleList) {
+
         Project project = projectRepository.findById(projectId).orElseThrow(()->new NoSuchElementException("[ERROR] 해당하는 프로젝트가 존재하지 않습니다."));
         for(Map<String,String> map : roleScheduleList){
             Role r = new Role();
@@ -272,6 +230,33 @@ public class RecommendServiceImpl implements RecommendService{
             Calendar calendar = Calendar.builder().project(project).role(role).content(map.get("task")).finishDate(LocalDate.parse(map.get("finish"))).startDate(LocalDate.parse(map.get("start"))).build();
             calendarRepository.save(calendar);
         }
+    }
+
+    public ResponseEntity<String> fetchClovaAPI(List<Message> messages, String requestId){
+        String url = clovaStudioRecommend.getUrl();
+        String apiKeyClovaStudio = clovaStudioRecommend.getApiKeyClovaStudio();
+        String apiGateWayKey = clovaStudioRecommend.getApiGateWayKey();
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-NCP-CLOVASTUDIO-API-KEY", apiKeyClovaStudio);
+        headers.set("X-NCP-APIGW-API-KEY", apiGateWayKey);
+        headers.set("X-NCP-CLOVASTUDIO-REQUEST-ID", requestId);
+        headers.set("Content-Type", "application/json");
+
+        Map<java.lang.String, Object> requestBody = new HashMap<>();
+        requestBody.put("messages", messages);
+        requestBody.put("topP", 0.8);
+        requestBody.put("topK", 0);
+        requestBody.put("maxTokens", 256);
+        requestBody.put("temperature", 0.5);
+        requestBody.put("repeatPenalty", 5.0);
+        requestBody.put("includeAiFilters", "True");
+
+        HttpEntity<Map<java.lang.String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
     }
 
 }
