@@ -2,14 +2,11 @@ package mvc.promiseme.calendar.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import mvc.promiseme.project.entity.Member;
 import mvc.promiseme.project.entity.Project;
 import mvc.promiseme.project.entity.Role;
 import mvc.promiseme.todo.entity.Todo;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

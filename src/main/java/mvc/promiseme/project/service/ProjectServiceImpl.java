@@ -3,7 +3,6 @@ package mvc.promiseme.project.service;
 import lombok.RequiredArgsConstructor;
 import mvc.promiseme.common.exception.ErrorCode;
 import mvc.promiseme.common.exception.UserException;
-import mvc.promiseme.project.dto.MemberDTO;
 import mvc.promiseme.project.dto.MemberRequestDTO;
 import mvc.promiseme.project.dto.ProjectRequestDTO;
 import mvc.promiseme.project.dto.ProjectResponseDTO;
@@ -14,7 +13,6 @@ import mvc.promiseme.project.entity.Role;
 import mvc.promiseme.project.repository.MemberRepository;
 import mvc.promiseme.project.repository.ProjectRepository;
 import mvc.promiseme.project.repository.RoleRepository;
-import mvc.promiseme.todo.dto.TodoRequestDTO;
 import mvc.promiseme.todo.entity.Todo;
 import mvc.promiseme.todo.repository.TodoRepository;
 import mvc.promiseme.users.entity.Users;
@@ -22,7 +20,9 @@ import mvc.promiseme.users.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
