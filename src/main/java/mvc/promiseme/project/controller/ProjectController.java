@@ -1,5 +1,7 @@
 package mvc.promiseme.project.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mvc.promiseme.project.dto.ProjectRequestDTO;
@@ -24,7 +26,9 @@ public class ProjectController {
     private final ProjectService projectService;
     private final RecommendService recommendService;
     @GetMapping("/")
-    public ResponseEntity<List<ProjectResponseDTO>>calendarAll(@RequestParam("userId") Long userId){
+    @Operation(summary = "전체 프로젝트조회", description = "user가 포함된 모든 프로젝트를 조회")
+    @ApiResponse()
+    public ResponseEntity<List<ProjectResponseDTO>> projectAll(@RequestParam("userId") Long userId){
         return ResponseEntity.ok(projectService.projectAll(userId));
 
     }
