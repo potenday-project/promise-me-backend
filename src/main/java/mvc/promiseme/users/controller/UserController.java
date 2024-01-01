@@ -44,12 +44,19 @@ public class UserController {
             return ResponseEntity.ok(userService.register(userdto));
         }
     }
+    @Operation(summary = "로그인", description = "이메일, 패스워드를 입력받아 로그인을 진행한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = LoginResponseDTO.class))),
+            @ApiResponse(responseCode = "401", description = "존재하지 않는 고객 정보입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "401", description = "비밀번호가 일치하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 
+    })
     @PostMapping("/users/login")
     public ResponseEntity<LoginResponseDTO>login(@RequestBody LoginRequestDTO loginRequestDTO){
         return ResponseEntity.ok(userService.login(loginRequestDTO));
     }
 
+    @Operation(summary = "로그아웃", description = "로그아웃을 진행한다.")
     @PostMapping("/users/logout")
     public ResponseEntity<String>logout(@RequestBody String token){
         return ResponseEntity.ok(userService.logout(token));
