@@ -20,6 +20,7 @@ public enum ErrorCode implements EnumModel{
 
     //조회시 발생 가능 예외
     RPOJECT_NOT_FOUND(401,"P001","프로젝트를 찾을 수 없습니다."),
+    CATEGORY_SERVER_ERROR(500,"P002","카테고리 불러오는 것을 실패하였습니다."),
     MEMBER_NOT_FOUND(401,"M001","해당하는 멤버를 찾을 수 없습니다."),
     CALENDER_NOT_FOUND(401,"C001","해당하는 일정을 찾을 수 없습니다.");
 

@@ -1,9 +1,6 @@
 package mvc.promiseme.project;
 
-import mvc.promiseme.project.dto.MemberDTO;
-import mvc.promiseme.project.dto.ProjectRequestDTO;
-import mvc.promiseme.project.dto.ProjectResponseDTO;
-import mvc.promiseme.project.dto.RecommendScheduleRequestDTO;
+import mvc.promiseme.project.dto.*;
 import mvc.promiseme.project.service.ProjectService;
 import mvc.promiseme.project.service.RecommendService;
 import mvc.promiseme.users.service.UserService;
@@ -58,11 +55,11 @@ public class projectTest {
     }
     @Test
     public void testInsert(){
-        List<MemberDTO> memberDTOList = new ArrayList<>();
-        memberDTOList.add(MemberDTO.builder().role("기획자").userId(1L).build());
-        memberDTOList.add(MemberDTO.builder().role("디자이너").userId(2L).build());
-        memberDTOList.add(MemberDTO.builder().role("프론트 개발자").userId(3L).build());
-        memberDTOList.add(MemberDTO.builder().role("백엔드 개발자").userId(4L).build());
+        List<MemberRequestDTO> memberDTOList = new ArrayList<>();
+        memberDTOList.add(MemberRequestDTO.builder().role("기획자").email("a@gmail.com").build());
+        memberDTOList.add(MemberRequestDTO.builder().role("디자이너").email("b@gmail.com").build());
+        memberDTOList.add(MemberRequestDTO.builder().role("프론트 개발자").email("c@gmail.com").build());
+        memberDTOList.add(MemberRequestDTO.builder().role("백엔드 개발자").email("d@gmail.com").build());
         ProjectRequestDTO requestDTO = ProjectRequestDTO.builder()
                 .category("웹개발").
                 deadline(LocalDate.parse("2023-12-17"))
