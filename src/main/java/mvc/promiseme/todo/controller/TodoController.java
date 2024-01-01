@@ -44,7 +44,7 @@ public class TodoController {
     }
     @Operation(summary = "투두 조회", description = "projectId, userId, 날짜를 입력 받아 해당하는 TODO를 조회한다.")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = TodoResponseDTO.class))),
             @ApiResponse(responseCode = "401", description = "해당 프로젝트를 찾을 수 없습니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "401", description = "해당 사용자를 찾을 수 없습니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 
