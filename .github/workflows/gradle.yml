@@ -1,0 +1,71 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: make application-api-key.properties
+      run: |
+        cd ./src/main/resources
+        touch ./application-api-key.properties
+        echo "${{ secrets.APPLICATION_API_KEY }}" > ./application-api-key.properties
+
+    - name: make db-application.properties
+      run: |
+        cd ./src/main/resources
+        touch ./db-application.properties
+        echo "${{ secrets.DB_APPLICATION }}" > ./db-application.properties
+    
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
+    - name: Build with Gradle
+      #uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+      #with:
+        #arguments: build
+      run : ./gradlew clean build --exclude-task test
+
+
+## 도커 이미지 빌드 후 도커허브에 push하기
+    - name: web docker build and push
+      run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        docker build -t ${{ secrets.DOCKER_REPO }} .
+        docker push ${{ secrets.DOCKER_REPO }}
+         
+    ## 서버에 접속하여 도커 이미지를 pull 받고 실행하기
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.HOST }}
+        username: ec2-user
+        key: ${{ secrets.PRIVATE_KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          docker rm -f $(docker ps -qa)
+          sudo docker pull ${{ secrets.DOCKER_REPO }}
+          sudo docker run -d -p 80:8080 ${{ secrets.DOCKER_REPO }}
