@@ -1,6 +1,7 @@
 package mvc.promiseme.meeting.service;
 
 import lombok.RequiredArgsConstructor;
+import mvc.promiseme.common.utils.EntityLoaderById;
 import mvc.promiseme.meeting.entity.Meeting;
 import mvc.promiseme.meeting.exception.FileUploadException;
 import mvc.promiseme.meeting.exception.SummaryException;
@@ -8,14 +9,12 @@ import mvc.promiseme.meeting.exception.TransferTextException;
 import mvc.promiseme.meeting.dto.MeetingResponseDTO;
 import mvc.promiseme.meeting.repository.MeetingRepository;
 import mvc.promiseme.project.entity.Project;
-import mvc.promiseme.project.repository.ProjectRepository;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -23,11 +22,12 @@ import java.util.NoSuchElementException;
 public class MeetingServiceImpl implements MeetingService {
 
     private final MeetingRepository meetingRepository;
-    private final ProjectRepository projectRepository;
 
     private final FileUploadingService fileUploadingService;
     private final TransferTextService transferTextService;
     private final SummaryTextService summaryTextService;
+
+    private final EntityLoaderById entityLoaderById;
 
     @Override
     public List<MeetingResponseDTO> meetingAll(Long projectId) {
@@ -64,8 +64,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     private Meeting addEmptyRecord(Long projectId){
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 프로젝트는 존재하지 않습니다"));
+        Project project = entityLoaderById.getProjectByIdOrThrow(projectId);
 
         Meeting meeting = Meeting.builder()
                 .project(project)

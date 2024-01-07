@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import mvc.promiseme.calendar.dto.CalendarAndTodoAllByRoleDto;
 import mvc.promiseme.calendar.entity.Calendar;
 import mvc.promiseme.calendar.repository.CalendarRepository;
+import mvc.promiseme.common.utils.EntityLoaderById;
 import mvc.promiseme.project.entity.Member;
 import mvc.promiseme.project.entity.Project;
 import mvc.promiseme.project.repository.MemberRepository;
-import mvc.promiseme.project.repository.ProjectRepository;
 import mvc.promiseme.todo.entity.Todo;
 import mvc.promiseme.todo.repository.TodoRepository;
 import org.springframework.stereotype.Service;
@@ -24,15 +24,14 @@ public class CalendarServiceImpl implements CalendarService{
     private final CalendarRepository calendarRepository;
     private final MemberRepository memberRepository;
     private final TodoRepository todoRepository;
-    private final ProjectRepository projectRepository;
+    private final EntityLoaderById entityLoaderById;
 
     @Override
     public List<CalendarAndTodoAllByRoleDto> calendarAndtodoAll(Long projectId, LocalDate date) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 프로젝트는 존재하지 않습니다"));
+        Project project = entityLoaderById.getProjectByIdOrThrow(projectId);
         List<Calendar> calendars = calendarRepository
                 .findByProjectAndStartDateLessThanEqualAndFinishDateGreaterThanEqual(project, date, date);
-        if(calendars == null) throw new NoSuchElementException("[ERROR] Nothing in the calendar on selected date");
+        if(calendars == null) throw new NoSuchElementException("[ERROR] 선택한 날짜에 일정이 존재하지 않습니다.");
 
         List<CalendarAndTodoAllByRoleDto> result = makeTodoAllByRoleDtoList(calendars, date);
         return result;
