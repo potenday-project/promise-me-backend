@@ -56,29 +56,40 @@ public class CalendarServiceImpl implements CalendarService{
         List<CalendarAndTodoAllByRoleDto.MemberDto> memberDtoList = new ArrayList<>();
 
         for(Member m : members){
-            CalendarAndTodoAllByRoleDto.MemberDto memberDto = new CalendarAndTodoAllByRoleDto.MemberDto();
-            memberDto.setName(m.getUsers().getNickname());
-
-            List<Todo> todoList = todoRepository.findByMemberAndAndTodoDate(m, date);
-            List<CalendarAndTodoAllByRoleDto.TodoDTO> todoDTOList = makeTodoDTOList(todoList);
-            memberDto.setTodoList(todoDTOList);
-
+            CalendarAndTodoAllByRoleDto.MemberDto memberDto = makeMemberDto(m, date);
             memberDtoList.add(memberDto);
         }
 
         return memberDtoList;
     }
 
+    private CalendarAndTodoAllByRoleDto.MemberDto makeMemberDto(Member m, LocalDate date){
+        CalendarAndTodoAllByRoleDto.MemberDto memberDto = new CalendarAndTodoAllByRoleDto.MemberDto();
+
+        List<Todo> todoList = todoRepository.findByMemberAndAndTodoDate(m, date);
+        List<CalendarAndTodoAllByRoleDto.TodoDTO> todoDTOList = makeTodoDTOList(todoList);
+
+        memberDto.setName(m.getUsers().getNickname());
+        memberDto.setTodoList(todoDTOList);
+
+        return memberDto;
+    }
+
     private List<CalendarAndTodoAllByRoleDto.TodoDTO> makeTodoDTOList(List<Todo> todoList){
         List<CalendarAndTodoAllByRoleDto.TodoDTO> todoDTOList = new ArrayList<>();
 
         for(Todo t : todoList){
-            CalendarAndTodoAllByRoleDto.TodoDTO todoDTO = new CalendarAndTodoAllByRoleDto.TodoDTO();
-            todoDTO.setContent(t.getContent());
-            todoDTO.setStatus(t.isCompleted());
+            CalendarAndTodoAllByRoleDto.TodoDTO todoDTO = makeTodoDto(t);
             todoDTOList.add(todoDTO);
         }
         return todoDTOList;
+    }
+
+    private CalendarAndTodoAllByRoleDto.TodoDTO makeTodoDto(Todo t){
+        CalendarAndTodoAllByRoleDto.TodoDTO todoDTO = new CalendarAndTodoAllByRoleDto.TodoDTO();
+        todoDTO.setContent(t.getContent());
+        todoDTO.setStatus(t.isCompleted());
+        return todoDTO;
     }
 
 //    @Override
