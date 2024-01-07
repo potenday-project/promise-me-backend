@@ -45,8 +45,7 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     public String check(Long todoId){
-        Todo todo = todoRepository.findById(todoId)
-                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 투두가 존재하지 않습니다."));
+        Todo todo = entityLoaderById.getTodoByIdOrThrow(todoId);
         todo = updateStatus(todo);
         todoRepository.save(todo);
         return "success";
