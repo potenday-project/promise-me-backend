@@ -8,7 +8,6 @@ import mvc.promiseme.common.utils.EntityLoaderById;
 import mvc.promiseme.project.entity.Member;
 import mvc.promiseme.project.entity.Project;
 import mvc.promiseme.project.repository.MemberRepository;
-import mvc.promiseme.project.repository.ProjectRepository;
 import mvc.promiseme.todo.entity.Todo;
 import mvc.promiseme.todo.repository.TodoRepository;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,6 @@ public class CalendarServiceImpl implements CalendarService{
     private final CalendarRepository calendarRepository;
     private final MemberRepository memberRepository;
     private final TodoRepository todoRepository;
-    private final ProjectRepository projectRepository;
     private final EntityLoaderById entityLoaderById;
 
     @Override

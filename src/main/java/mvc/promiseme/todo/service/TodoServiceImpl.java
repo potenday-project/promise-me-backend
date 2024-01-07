@@ -5,13 +5,11 @@ import mvc.promiseme.common.utils.EntityLoaderById;
 import mvc.promiseme.project.entity.Member;
 import mvc.promiseme.project.entity.Project;
 import mvc.promiseme.project.repository.MemberRepository;
-import mvc.promiseme.project.repository.ProjectRepository;
 import mvc.promiseme.todo.dto.TodoRequestDTO;
 import mvc.promiseme.todo.dto.TodoResponseDTO;
 import mvc.promiseme.todo.entity.Todo;
 import mvc.promiseme.todo.repository.TodoRepository;
 import mvc.promiseme.users.entity.Users;
-import mvc.promiseme.users.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
