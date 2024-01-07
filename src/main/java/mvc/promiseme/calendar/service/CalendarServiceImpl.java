@@ -28,28 +28,35 @@ public class CalendarServiceImpl implements CalendarService{
 
     @Override
     public List<CalendarAndTodoAllByRoleDto> calendarAndtodoAll(Long projectId, LocalDate date) {
-        //
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 프로젝트는 존재하지 않습니다"));
         List<Calendar> calendars = calendarRepository
                 .findByProjectAndStartDateLessThanEqualAndFinishDateGreaterThanEqual(project, date, date);
         if(calendars == null) throw new NoSuchElementException("[ERROR] Nothing in the calendar on selected date");
 
-        //
+        List<CalendarAndTodoAllByRoleDto> result = makeTodoAllByRoleDtoList(calendars, date);
+        return result;
+    }
+
+    private List<CalendarAndTodoAllByRoleDto> makeTodoAllByRoleDtoList(List<Calendar> calendars, LocalDate date){
         List<CalendarAndTodoAllByRoleDto> result = new ArrayList<>();
         for(Calendar c : calendars){
-            CalendarAndTodoAllByRoleDto todoAllByRoleDto = new CalendarAndTodoAllByRoleDto();
-            todoAllByRoleDto.setRole(c.getRole().getName());
-            todoAllByRoleDto.setRecommendation(c.getContent());
-
-            List<Member> members = memberRepository.findByProjectAndAndRole(c.getProject(), c.getRole());
-            List<CalendarAndTodoAllByRoleDto.MemberDto> memberDtoList = makeMemberDtoList(members, date);
-            todoAllByRoleDto.setMembers(memberDtoList);
-
+            CalendarAndTodoAllByRoleDto todoAllByRoleDto = makeTodoAllByRoleDto(c, date);
             result.add(todoAllByRoleDto);
         }
-
         return result;
+    }
+
+    private CalendarAndTodoAllByRoleDto makeTodoAllByRoleDto(Calendar c, LocalDate date){
+        CalendarAndTodoAllByRoleDto todoAllByRoleDto = new CalendarAndTodoAllByRoleDto();
+        todoAllByRoleDto.setRole(c.getRole().getName());
+        todoAllByRoleDto.setRecommendation(c.getContent());
+
+        List<Member> members = memberRepository.findByProjectAndAndRole(c.getProject(), c.getRole());
+        List<CalendarAndTodoAllByRoleDto.MemberDto> memberDtoList = makeMemberDtoList(members, date);
+        todoAllByRoleDto.setMembers(memberDtoList);
+
+        return todoAllByRoleDto;
     }
 
     private List<CalendarAndTodoAllByRoleDto.MemberDto> makeMemberDtoList(List<Member> members, LocalDate date){
