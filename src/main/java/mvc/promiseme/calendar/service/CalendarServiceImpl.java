@@ -42,24 +42,31 @@ public class CalendarServiceImpl implements CalendarService{
             todoAllByRoleDto.setRole(c.getRole().getName());
             todoAllByRoleDto.setRecommendation(c.getContent());
 
-            List<CalendarAndTodoAllByRoleDto.MemberDto> memberDtoList = new ArrayList<>();
-
             List<Member> members = memberRepository.findByProjectAndAndRole(c.getProject(), c.getRole());
-            for(Member m : members){
-                CalendarAndTodoAllByRoleDto.MemberDto memberDto = new CalendarAndTodoAllByRoleDto.MemberDto();
-                memberDto.setName(m.getUsers().getNickname());
-
-                List<Todo> todoList = todoRepository.findByMemberAndAndTodoDate(m, date);
-                List<CalendarAndTodoAllByRoleDto.TodoDTO> todoDTOList = makeTodoDTOList(todoList);
-                memberDto.setTodoList(todoDTOList);
-                
-                memberDtoList.add(memberDto);
-            }
+            List<CalendarAndTodoAllByRoleDto.MemberDto> memberDtoList = makeMemberDtoList(members, date);
             todoAllByRoleDto.setMembers(memberDtoList);
+
             result.add(todoAllByRoleDto);
         }
 
         return result;
+    }
+
+    private List<CalendarAndTodoAllByRoleDto.MemberDto> makeMemberDtoList(List<Member> members, LocalDate date){
+        List<CalendarAndTodoAllByRoleDto.MemberDto> memberDtoList = new ArrayList<>();
+
+        for(Member m : members){
+            CalendarAndTodoAllByRoleDto.MemberDto memberDto = new CalendarAndTodoAllByRoleDto.MemberDto();
+            memberDto.setName(m.getUsers().getNickname());
+
+            List<Todo> todoList = todoRepository.findByMemberAndAndTodoDate(m, date);
+            List<CalendarAndTodoAllByRoleDto.TodoDTO> todoDTOList = makeTodoDTOList(todoList);
+            memberDto.setTodoList(todoDTOList);
+
+            memberDtoList.add(memberDto);
+        }
+
+        return memberDtoList;
     }
 
     private List<CalendarAndTodoAllByRoleDto.TodoDTO> makeTodoDTOList(List<Todo> todoList){
