@@ -24,15 +24,13 @@ public class TodoServiceImpl implements TodoService{
 
     private final TodoRepository todoRepository;
     private final MemberRepository memberRepository;
-    private final ProjectRepository projectRepository;
-    private final UserRepository userRepository;
 
     private final EntityLoaderById entityLoaderById;
 
     @Override
     public String insert(TodoRequestDTO todoRequestDTO) {
         Member member = getMember(todoRequestDTO.getProjectId(), todoRequestDTO.getUserId());
-        Project project = entityLoaderById.getProjectByIdOrThrow(projectId);
+        Project project = entityLoaderById.getProjectByIdOrThrow(todoRequestDTO.getProjectId());
 
         Todo t = new Todo();
         Todo todo = t.mapToEntity(todoRequestDTO, project, member);
@@ -70,9 +68,9 @@ public class TodoServiceImpl implements TodoService{
     }
     
     private Member getMember(Long projectId, Long userId){
-        Users users = userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 회원이 존재하지 않습니다."));
+        Users users = entityLoaderById.getUserByIdOrThrow(userId);
         Project project = entityLoaderById.getProjectByIdOrThrow(projectId);
+
         return memberRepository.findByUsersAndProject(users, project)
                 .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 프로젝트 멤버가 존재하지 않습니다."));
     }

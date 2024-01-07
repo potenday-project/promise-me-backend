@@ -3,6 +3,7 @@ package mvc.promiseme.project.service;
 import lombok.RequiredArgsConstructor;
 import mvc.promiseme.common.exception.ErrorCode;
 import mvc.promiseme.common.exception.UserException;
+import mvc.promiseme.common.utils.EntityLoaderById;
 import mvc.promiseme.project.dto.MemberRequestDTO;
 import mvc.promiseme.project.dto.ProjectRequestDTO;
 import mvc.promiseme.project.dto.ProjectResponseDTO;
@@ -33,10 +34,13 @@ public class ProjectServiceImpl implements ProjectService {
     private final MemberRepository memberRepository;
     private final RoleRepository roleRepository;
     private final TodoRepository todoRepository;
+
+    private final EntityLoaderById entityLoaderById;
+
     @Override
     @Transactional
     public List<ProjectResponseDTO> projectAll(Long userId) {
-        Users user = userRepository.findById(userId).orElseThrow(()->new UserException(ErrorCode.INVALID_User_Login));
+        Users user = entityLoaderById.getUserByIdOrThrow(userId);
         List<Member> memberList = memberRepository.findByUsers(user);
         List<ProjectResponseDTO> projectList = new ArrayList<>();
         for(Member m : memberList)
