@@ -49,16 +49,10 @@ public class CalendarServiceImpl implements CalendarService{
                 CalendarAndTodoAllByRoleDto.MemberDto memberDto = new CalendarAndTodoAllByRoleDto.MemberDto();
                 memberDto.setName(m.getUsers().getNickname());
 
-                List<CalendarAndTodoAllByRoleDto.TodoDTO> todoDTOList = new ArrayList<>();
-
                 List<Todo> todoList = todoRepository.findByMemberAndAndTodoDate(m, date);
-                for(Todo t : todoList){
-                    CalendarAndTodoAllByRoleDto.TodoDTO todoDTO = new CalendarAndTodoAllByRoleDto.TodoDTO();
-                    todoDTO.setContent(t.getContent());
-                    todoDTO.setStatus(t.isCompleted());
-                    todoDTOList.add(todoDTO);
-                }
+                List<CalendarAndTodoAllByRoleDto.TodoDTO> todoDTOList = makeTodoDTOList(todoList);
                 memberDto.setTodoList(todoDTOList);
+                
                 memberDtoList.add(memberDto);
             }
             todoAllByRoleDto.setMembers(memberDtoList);
@@ -67,6 +61,19 @@ public class CalendarServiceImpl implements CalendarService{
 
         return result;
     }
+
+    private List<CalendarAndTodoAllByRoleDto.TodoDTO> makeTodoDTOList(List<Todo> todoList){
+        List<CalendarAndTodoAllByRoleDto.TodoDTO> todoDTOList = new ArrayList<>();
+
+        for(Todo t : todoList){
+            CalendarAndTodoAllByRoleDto.TodoDTO todoDTO = new CalendarAndTodoAllByRoleDto.TodoDTO();
+            todoDTO.setContent(t.getContent());
+            todoDTO.setStatus(t.isCompleted());
+            todoDTOList.add(todoDTO);
+        }
+        return todoDTOList;
+    }
+
 //    @Override
 //    public List<CalendarResponseDTO> calendarAll(Long projectId) {
 //        Project project = Project.builder().projectId(projectId).build();
