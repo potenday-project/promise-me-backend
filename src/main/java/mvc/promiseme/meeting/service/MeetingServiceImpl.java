@@ -1,6 +1,7 @@
 package mvc.promiseme.meeting.service;
 
 import lombok.RequiredArgsConstructor;
+import mvc.promiseme.common.utils.EntityLoaderById;
 import mvc.promiseme.meeting.entity.Meeting;
 import mvc.promiseme.meeting.exception.FileUploadException;
 import mvc.promiseme.meeting.exception.SummaryException;
@@ -28,6 +29,8 @@ public class MeetingServiceImpl implements MeetingService {
     private final FileUploadingService fileUploadingService;
     private final TransferTextService transferTextService;
     private final SummaryTextService summaryTextService;
+
+    private final EntityLoaderById entityLoaderById;
 
     @Override
     public List<MeetingResponseDTO> meetingAll(Long projectId) {
@@ -64,8 +67,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     private Meeting addEmptyRecord(Long projectId){
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 프로젝트는 존재하지 않습니다"));
+        Project project = entityLoaderById.getProjectByIdOrThrow(projectId);
 
         Meeting meeting = Meeting.builder()
                 .project(project)

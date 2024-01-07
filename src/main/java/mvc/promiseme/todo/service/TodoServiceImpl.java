@@ -1,6 +1,7 @@
 package mvc.promiseme.todo.service;
 
 import lombok.RequiredArgsConstructor;
+import mvc.promiseme.common.utils.EntityLoaderById;
 import mvc.promiseme.project.entity.Member;
 import mvc.promiseme.project.entity.Project;
 import mvc.promiseme.project.repository.MemberRepository;
@@ -26,11 +27,12 @@ public class TodoServiceImpl implements TodoService{
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
 
+    private final EntityLoaderById entityLoaderById;
+
     @Override
     public String insert(TodoRequestDTO todoRequestDTO) {
         Member member = getMember(todoRequestDTO.getProjectId(), todoRequestDTO.getUserId());
-        Project project = projectRepository.findById(todoRequestDTO.getProjectId())
-                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 프로젝트가 존재하지 않습니다."));
+        Project project = entityLoaderById.getProjectByIdOrThrow(projectId);
 
         Todo t = new Todo();
         Todo todo = t.mapToEntity(todoRequestDTO, project, member);
@@ -70,8 +72,7 @@ public class TodoServiceImpl implements TodoService{
     private Member getMember(Long projectId, Long userId){
         Users users = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 회원이 존재하지 않습니다."));
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 프로젝트가 존재하지 않습니다."));
+        Project project = entityLoaderById.getProjectByIdOrThrow(projectId);
         return memberRepository.findByUsersAndProject(users, project)
                 .orElseThrow(() -> new NoSuchElementException("[ERROR] 해당 프로젝트 멤버가 존재하지 않습니다."));
     }
