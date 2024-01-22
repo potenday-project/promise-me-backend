@@ -64,7 +64,7 @@ public class UserController {
 
     @Operation(summary = "카카오로그인", description = "카카오 로그인 창으로 이동 ")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = Map.class)))
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = KakaoResponseDTO.class)))
     })
     @PostMapping("user/loginKakao")
     public ResponseEntity<KakaoResponseDTO> kakaoLogin(){
