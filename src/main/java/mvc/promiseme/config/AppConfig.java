@@ -2,6 +2,7 @@ package mvc.promiseme.config;
 
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import mvc.promiseme.kakao.KakaoApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,5 +17,11 @@ public class AppConfig {
     @Bean
     public JPAQueryFactory queryFactory(){
         return new JPAQueryFactory(entityManager);
+
+
+    }
+    @Bean
+    public KakaoApi kakaoApi() {
+        return new KakaoApi();
     }
 }
