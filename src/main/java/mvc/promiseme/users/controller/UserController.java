@@ -11,16 +11,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mvc.promiseme.common.exception.ErrorCode;
 import mvc.promiseme.common.exception.ErrorResponse;
+import mvc.promiseme.kakao.KakaoApi;
 import mvc.promiseme.project.dto.ProjectResponseDTO;
 import mvc.promiseme.users.dto.LoginRequestDTO;
 import mvc.promiseme.users.dto.LoginResponseDTO;
 import mvc.promiseme.users.dto.UserDTO;
 import mvc.promiseme.users.service.UserService;
+import org.json.simple.parser.ParseException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -29,6 +30,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final KakaoApi kakaoApi;
 
     @Operation(summary = "회원가입", description = "닉네임과 이메일, 패스워드를 입력받아 회원가입을 진행한다.")
     @ApiResponses({
@@ -55,6 +57,30 @@ public class UserController {
     public ResponseEntity<LoginResponseDTO>login(@RequestBody LoginRequestDTO loginRequestDTO){
         return ResponseEntity.ok(userService.login(loginRequestDTO));
     }
+
+
+
+
+    @Operation(summary = "카카오로그인", description = "카카오 로그인 창으로 이동 ")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = Map.class))),
+    })
+    @GetMapping("user/loginKakao")
+    public ResponseEntity<Map<String,String>> kakaoLogin(){
+        Map<String,String> map = new HashMap<>();
+        map.put("kakaoApiKey", kakaoApi.getKakaoApiKey());
+        map.put("redirectUri", kakaoApi.getKakaoRedirectUri());
+        return ResponseEntity.ok(map);
+    }
+
+    @GetMapping("/login/oauth/kakao")
+    @ResponseBody
+    public String kakaoCallback(String code) throws ParseException {
+        String accessToken = kakaoApi.getKakaoAccessToken(code);
+        ResponseEntity<String> userInfo = kakaoApi.getUserInfo(accessToken);
+        return "카카오 인증완료 반환값: " + userInfo;
+    }
+
 
     @Operation(summary = "로그아웃", description = "로그아웃을 진행한다.")
     @PostMapping("/users/logout")
