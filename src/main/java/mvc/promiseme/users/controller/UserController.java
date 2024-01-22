@@ -13,6 +13,7 @@ import mvc.promiseme.common.exception.ErrorCode;
 import mvc.promiseme.common.exception.ErrorResponse;
 import mvc.promiseme.kakao.KakaoApi;
 import mvc.promiseme.project.dto.ProjectResponseDTO;
+import mvc.promiseme.users.dto.KakaoResponseDTO;
 import mvc.promiseme.users.dto.LoginRequestDTO;
 import mvc.promiseme.users.dto.LoginResponseDTO;
 import mvc.promiseme.users.dto.UserDTO;
@@ -63,14 +64,13 @@ public class UserController {
 
     @Operation(summary = "카카오로그인", description = "카카오 로그인 창으로 이동 ")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = Map.class))),
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = Map.class)))
     })
-    @GetMapping("user/loginKakao")
-    public ResponseEntity<Map<String,String>> kakaoLogin(){
-        Map<String,String> map = new HashMap<>();
-        map.put("kakaoApiKey", kakaoApi.getKakaoApiKey());
-        map.put("redirectUri", kakaoApi.getKakaoRedirectUri());
-        return ResponseEntity.ok(map);
+    @PostMapping("user/loginKakao")
+    public ResponseEntity<KakaoResponseDTO> kakaoLogin(){
+        KakaoResponseDTO kakaoResponseDTO = new KakaoResponseDTO(kakaoApi.getKakaoApiKey(),kakaoApi.getKakaoRedirectUri());
+
+        return ResponseEntity.ok(kakaoResponseDTO);
     }
 
     @GetMapping("/login/oauth/kakao")
