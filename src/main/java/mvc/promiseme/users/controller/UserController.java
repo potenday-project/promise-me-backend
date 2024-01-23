@@ -66,7 +66,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = KakaoResponseDTO.class)))
     })
-    @PostMapping("user/loginKakao")
+    @GetMapping("user/loginKakao")
     public ResponseEntity<KakaoResponseDTO> kakaoLogin(){
         KakaoResponseDTO kakaoResponseDTO = new KakaoResponseDTO(kakaoApi.getKakaoApiKey(),kakaoApi.getKakaoRedirectUri());
 
