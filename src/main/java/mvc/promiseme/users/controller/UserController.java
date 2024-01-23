@@ -73,7 +73,7 @@ public class UserController {
         return ResponseEntity.ok(kakaoResponseDTO);
     }
 
-    @GetMapping("/login/oauth/kakao")
+    @PostMapping("/login/oauth/kakao")
     @ResponseBody
     public String kakaoCallback(String code) throws ParseException {
         String accessToken = kakaoApi.getKakaoAccessToken(code);
