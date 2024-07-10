@@ -112,8 +112,9 @@
    막연하게 준비하지 마세요. 내 프로젝트에 딱 맞는 팀원 구성과 일정을 **약속해줘**가 추천해드려요!
 
 <p align="center">
-  <img src="https://github.com/potenday-project/promise-me-backend/assets/80961726/b20dde52-5db8-499b-b0eb-e5478618f475" width="30%" />
-  <img src="https://github.com/potenday-project/promise-me-backend/assets/80961726/c3caf323-3aa1-468c-a6d4-7118495a4407" width="30%" />
+
+  <img src="https://github.com/potenday-project/promise-me-backend/assets/80961726/35210fd3-265c-43c5-bab5-53e8fadfa0a6" width="30%" />
+  <img src="https://github.com/potenday-project/promise-me-backend/assets/80961726/e3c90700-0474-4d9c-914e-f08a52199ee4" width="30%" />
   <img src="https://github.com/potenday-project/promise-me-backend/assets/80961726/57dab535-5d87-48e6-b37b-fad0f6f5d5bb" width="30%" />
 </p>
 
@@ -125,9 +126,9 @@
   캘린더 따로, Todo 따로 쓰시나요? “약속해줘”에서 모든 팀원들의 일정과 Todo를 한눈에 확인하세요!
   
 <p align="center">
-  
-  <img src="https://github.com/potenday-project/promise-me-backend/assets/80961726/4968b45f-4e60-4939-867a-d60441851914" width="30%" />
-  <img src="https://github.com/potenday-project/promise-me-backend/assets/80961726/eac59b21-8b6a-4a86-9f76-c3b818e33098" width="30%" />
+
+  <img src="https://github.com/potenday-project/promise-me-backend/assets/80961726/05809389-e900-4487-b36f-a06e6a08fe26" width="30%" />
+  <img src="https://github.com/potenday-project/promise-me-backend/assets/80961726/dd3a8cd3-aea1-4e74-a6bb-4e3ade796868" width="30%" />
   <img src="https://github.com/potenday-project/promise-me-backend/assets/80961726/4c8546db-aef3-4f18-ab85-d5f25c4b1279" width="30%" />
   
 </p>
@@ -141,8 +142,8 @@
 
 <p align="center">
   <div><strong>음성요약  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  텍스트 요약</strong></div>
-    <img src="https://github.com/potenday-project/promise-me-backend/assets/80961726/ded07742-7bde-4ca2-9d89-5268328cace7"  width="30%"/>
-    <img src="https://github.com/potenday-project/promise-me-backend/assets/80961726/19d8b4f8-5e41-4185-8ca9-b7ddf2de3065"  width="30%"/>
+    <img src="https://github.com/potenday-project/promise-me-backend/assets/80961726/3158a697-5081-407b-945d-a04f94b1aba8"  width="30%"/>
+    <img src="https://github.com/potenday-project/promise-me-backend/assets/80961726/74b2ab9d-ffe8-48e4-a661-4d58b23c947c"  width="30%"/>
 </p>
 
  **텍스트 요약**
